@@ -1,5 +1,5 @@
 import { ArrowDownLeft, Copy, Gift, RotateCcw, Trophy, Wallet } from 'lucide-react'
-import { useId, useState, type FormEvent } from 'react'
+import { lazy, Suspense, useId, useState, type FormEvent } from 'react'
 import { Button } from '../../components/ui/Button'
 import { EmptyState, Notice } from '../../components/ui/Notice'
 import { Card } from '../../components/ui/primitives'
@@ -11,6 +11,18 @@ import { useAsyncAction, type ActionState } from '../../lib/useAsyncAction'
 import { MAX_TOP_UP, useDemo } from '../../state/context'
 
 const TOP_UP_PRESETS = [500, 1000, 5000] as const
+
+/*
+ * Connect-wallet DESIGN PROTOTYPE (never contacts a bank, never stores details). Shown in development
+ * builds, or when VITE_BANK_LINK_PROTOTYPE=true is set for a design review. The condition is written
+ * inline so Vite replaces it with a constant and production builds drop the chunk entirely.
+ * Do not enable in a public build: real bank linking for this game is not legal in India without a
+ * qualified legal opinion (Promotion and Regulation of Online Gaming Act, 2025).
+ */
+const ConnectWalletCard =
+  import.meta.env.DEV || import.meta.env.VITE_BANK_LINK_PROTOTYPE === 'true'
+    ? lazy(async () => ({ default: (await import('./ConnectWallet')).ConnectWalletCard }))
+    : null
 
 const typeMeta: Record<LedgerType, { label: string; icon: typeof Wallet; tone: string }> = {
   topup: { label: 'Coin top-up', icon: ArrowDownLeft, tone: 'bg-mint-50 text-mint-600' },
@@ -211,6 +223,11 @@ export function WalletTab() {
       <Notice tone="info">
         Play coins only. Coins are free, have no cash value, and can't be bought, sold or cashed out.
       </Notice>
+      {ConnectWalletCard ? (
+        <Suspense fallback={null}>
+          <ConnectWalletCard />
+        </Suspense>
+      ) : null}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <Card className="p-2 sm:p-3">
           <div className="flex items-baseline justify-between px-3 pt-3 pb-2">

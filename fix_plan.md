@@ -31,6 +31,21 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - End-to-end draw in Chrome: joined → picked card → grace → reveal → balance ₹9,900 + ₹1,76,000 = ₹1,85,900, wins 1, history/alerts updated, 0 console errors.
 - Production bundle grep: dev-only "Preview as admin" string absent from dist.
 
+## Mobile + wallet work (2026-11-17)
+User decisions: play coins (no cash value); installable web app now + native Expo app next; has Apple Developer + Google Play accounts (no Expo account yet); do NOT deploy.
+- [x] Play coins replace ₹ everywhere; withdrawals removed; internals renamed (topup, minTopUp, addCoins) — commit 30de908
+- [x] Installable web app: manifest, icons, iOS meta, safe areas, service worker (offline 15/15 routes), install prompt; Chrome installability errors = 0 — 6ec5b23
+- [x] Shared game engine `src/state/engine.ts` (pure; used by web, ready for mobile) — 0128cbc
+- [x] Connect-wallet UI (bank account / UPI) as a DESIGN PROTOTYPE: validation, masked review, accessible bottom-sheet dialog; final step always says linking is off; never stores or sends details; dev builds only (or VITE_BANK_LINK_PROTOTYPE=true); verified absent from production bundle.
+- [ ] Phone-number OTP login — needs the user's SMS provider choice (Firebase / MSG91 / Twilio; MSG91/Twilio need TRAI DLT registration). Asked, not answered yet.
+- [ ] Native Expo app in mobile/ (iOS + Android) reusing src/domain + src/state/engine.ts + reducer + validate. Not started.
+- [ ] EAS build config + TestFlight public link + Play internal testing (user must create an Expo account and sign in; Claude never enters credentials).
+- BLOCKED (legal, not technical): real bank linking / real-money wallet. Online money games, incl. online lotteries, are banned in India under PROGA 2025 and banks/payment providers may not process them; Supreme Court challenge pending. Needs a qualified legal opinion before any work.
+Notes:
+- Dialogs must render via a portal: the Card's backdrop-filter makes `position: fixed` children position relative to the card (found in Chrome, fixed in ConnectWallet).
+- Playwright page.screenshot can mis-render fixed overlays after body overflow:hidden; verify with elementFromPoint or a CDP capture before "fixing" layout.
+- Feature-flag conditions must be inline `import.meta.env.*` expressions to be tree-shaken; a const imported from another module is not folded.
+
 ## Production-readiness audit (2026-11-17, in progress)
 Verified fixed (commits 97fc831, ade0bfd; 59 tests passing):
 - [x] A-1 High: unknown routes returned HTTP 200 → vercel.json rewrites only /, /dashboard, /admin; 404.html is served with a 404 status. Preview matches (curl: /nope 404, missing asset 404).
