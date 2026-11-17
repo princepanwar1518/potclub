@@ -1,11 +1,13 @@
 import { formatINR } from '../lib/format'
-import type { DemoState, Group, GroupSize, LedgerEntry, Player, PlayerId, Result } from './types'
+import type { DemoState, Group, GroupSize, LedgerEntry, PendingLimits, Player, PlayerId, PlayLimits, Result, SafetyState } from './types'
 
 /** Default entry fee per group size (from the reference's open groups and 5-player draws). */
 export const DEFAULT_ENTRY_FEE: Record<GroupSize, number> = { 5: 100, 10: 20000, 15: 30000, 20: 50000 }
 
 export const PICK_SECONDS = 120
 export const GRACE_SECONDS = 30
+/** Loosening or removing a limit only takes effect after this cooling-off period. */
+export const LIMIT_COOLING_OFF_HOURS = 24
 
 const HOUR_MS = 3_600_000
 const DAY_MS = 24 * HOUR_MS
@@ -112,6 +114,50 @@ export function leaderboard(state: Pick<DemoState, 'groups' | 'players'>, limit 
     .map((row, i) => ({ rank: i + 1, ...row }))
 }
 
+const LIMIT_KEYS: readonly (keyof PlayLimits)[] = ['hourlySpend', 'dailySpend', 'dailyLoss']
+
+/** A change is "tighter" when it sets a limit where there was none, or lowers an existing one. */
+function isTighterOrSame(current: number | null, next: number | null): boolean {
+  if (next === null) return current === null
+  return current === null || next <= current
+}
+
+/**
+ * Splits a requested limit change: tighter values apply now, looser values (raise or remove)
+ * are queued for LIMIT_COOLING_OFF_HOURS. Re-saving replaces any previous pending request.
+ */
+export function planLimitChange(
+  current: PlayLimits,
+  requested: PlayLimits,
+  nowMs: number,
+): { limits: PlayLimits; pending: PendingLimits | null } {
+  const limits: PlayLimits = { ...current }
+  const changes: Partial<PlayLimits> = {}
+  for (const key of LIMIT_KEYS) {
+    if (isTighterOrSame(current[key], requested[key])) limits[key] = requested[key]
+    else changes[key] = requested[key]
+  }
+  const pending =
+    Object.keys(changes).length > 0
+      ? { changes, effectiveAt: new Date(nowMs + LIMIT_COOLING_OFF_HOURS * HOUR_MS).toISOString() }
+      : null
+  return { limits, pending }
+}
+
+/** Limits in force at `nowMs`, including any pending change whose cooling-off has ended. */
+export function effectiveLimits(safety: Pick<SafetyState, 'limits' | 'pendingLimits'>, nowMs: number): PlayLimits {
+  const p = safety.pendingLimits
+  if (!p || Date.parse(p.effectiveAt) > nowMs) return safety.limits
+  return { ...safety.limits, ...p.changes }
+}
+
+/** Reason the player is currently blocked from paid activity and deposits, if any. */
+export function activeBlock(safety: Pick<SafetyState, 'timeoutUntil' | 'selfExcludedUntil'>, nowMs: number): string | null {
+  if (safety.selfExcludedUntil && Date.parse(safety.selfExcludedUntil) > nowMs) return 'You are self-excluded from paid groups.'
+  if (safety.timeoutUntil && Date.parse(safety.timeoutUntil) > nowMs) return 'You are on a time-out from paid groups.'
+  return null
+}
+
 function spentSince(ledger: readonly LedgerEntry[], playerId: PlayerId, sinceMs: number): number {
   return ledger
     .filter((e) => e.playerId === playerId && e.type === 'entry' && Date.parse(e.createdAt) >= sinceMs)
@@ -133,17 +179,13 @@ function lossSince(ledger: readonly LedgerEntry[], playerId: PlayerId, sinceMs: 
 export function canSpend(state: DemoState, amount: number, nowMs: number): Result {
   const pid = state.currentPlayerId
   if (state.config.maintenance) return { ok: false, reason: 'Paid groups are paused for maintenance.' }
-  if (state.safety.selfExcludedUntil && Date.parse(state.safety.selfExcludedUntil) > nowMs) {
-    return { ok: false, reason: 'You are self-excluded from paid groups.' }
-  }
-  if (state.safety.timeoutUntil && Date.parse(state.safety.timeoutUntil) > nowMs) {
-    return { ok: false, reason: 'You are on a time-out from paid groups.' }
-  }
+  const block = activeBlock(state.safety, nowMs)
+  if (block) return { ok: false, reason: block }
   const balance = balanceOf(state.ledger, pid)
   if (balance < amount) {
     return { ok: false, reason: `Insufficient balance — add ${formatINR(amount - balance)} to join.` }
   }
-  const { hourlySpend, dailySpend, dailyLoss } = state.safety.limits
+  const { hourlySpend, dailySpend, dailyLoss } = effectiveLimits(state.safety, nowMs)
   if (hourlySpend !== null && spentSince(state.ledger, pid, nowMs - HOUR_MS) + amount > hourlySpend) {
     return { ok: false, reason: 'This entry would exceed your hourly spend limit.' }
   }

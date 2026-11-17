@@ -113,7 +113,7 @@ describe('dashboard', () => {
     await user.clear(screen.getByLabelText(/daily spend limit/i))
     await user.type(screen.getByLabelText(/daily spend limit/i), '50')
     await user.click(screen.getByRole('button', { name: /save limits/i }))
-    expect(await screen.findByText(/limits saved/i)).toBeInTheDocument()
+    expect(await screen.findByText(/lower limits apply immediately/i)).toBeInTheDocument()
 
     await user.click(screen.getByRole('tab', { name: /available groups/i }))
     await user.click(await screen.findByRole('button', { name: /^5P/ }))
@@ -165,5 +165,46 @@ describe('admin', () => {
 
     await user.click(screen.getByRole('button', { name: /exit admin/i }))
     expect(await screen.findByRole('heading', { name: /administrator access required/i })).toBeInTheDocument()
+  })
+})
+
+describe('audit regressions', () => {
+  it('blocks deposits during a time-out (A-4)', async () => {
+    const user = userEvent.setup()
+    renderAt('/dashboard?tab=safety')
+    const timeoutCard = (await screen.findByRole('heading', { name: /take a time-out/i })).closest('div.rounded-card') as HTMLElement
+    await user.click(within(timeoutCard).getByRole('button', { name: '7 days' }))
+    await user.click(within(timeoutCard).getByRole('button', { name: /confirm 7 days/i }))
+    expect(await screen.findByText(/active until/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('tab', { name: /wallet/i }))
+    const depositForm = (await screen.findAllByRole('textbox', { name: /amount/i }))[0]!.closest('form') as HTMLElement
+    await user.type(within(depositForm).getByRole('textbox'), '500')
+    await user.click(within(depositForm).getByRole('button', { name: /^deposit$/i }))
+    expect(await screen.findByText(/deposits are paused until it ends/i)).toBeInTheDocument()
+    expect(within(await stat(/balance/i)).getByText('₹9,900')).toBeInTheDocument()
+  })
+
+  it('shows a pending notice when a limit is raised (A-5)', async () => {
+    const user = userEvent.setup()
+    renderAt('/dashboard?tab=safety')
+    const daily = await screen.findByLabelText(/daily spend limit/i)
+    await user.type(daily, '1000')
+    await user.click(screen.getByRole('button', { name: /save limits/i }))
+    expect(await screen.findByText(/lower limits apply immediately/i)).toBeInTheDocument()
+    await user.clear(daily)
+    await user.type(daily, '90000')
+    await user.click(screen.getByRole('button', { name: /save limits/i }))
+    expect(await screen.findByText(/pending: daily spend → ₹90,000/i)).toBeInTheDocument()
+    expect(screen.getByText(/current ₹1,000/i)).toBeInTheDocument()
+  })
+
+  it('rejects an admin minimum deposit above the deposit cap (A-6)', async () => {
+    const user = userEvent.setup()
+    renderAt('/admin')
+    await user.click(await screen.findByRole('button', { name: /preview as admin \(dev only\)/i }))
+    const input = await screen.findByLabelText(/minimum deposit/i)
+    await user.type(input, '200000')
+    await user.click(within(input.closest('form') as HTMLElement).getByRole('button', { name: /update/i }))
+    expect(await screen.findByText(/cannot exceed the ₹1,00,000 deposit cap/i)).toBeInTheDocument()
   })
 })

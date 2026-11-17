@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react'
-import { availableCards, balanceOf, canJoin, canSpend, DEFAULT_ENTRY_FEE } from '../domain/rules'
-import { createSeedState, STATE_VERSION } from '../domain/seed'
+import { activeBlock, availableCards, balanceOf, canJoin, canSpend, DEFAULT_ENTRY_FEE, effectiveLimits, planLimitChange } from '../domain/rules'
+import { createSeedState } from '../domain/seed'
 import type { DemoState, Result } from '../domain/types'
 import { formatINR } from '../lib/format'
 import { playChime } from '../lib/sound'
-import { ClockContext, MAX_DEPOSIT, StoreContext, type DemoActions, type LoadStatus } from './context'
+import { ClockContext, MAX_DEPOSIT, MAX_WITHDRAWAL_CAP, StoreContext, type DemoActions, type LoadStatus } from './context'
 import { demoReducer, newGroup } from './reducer'
+import { parsePersistedState } from './validate'
 
 /*
  * DemoStore is a stand-in for a backend. Every action re-validates against the latest state
@@ -16,16 +17,22 @@ import { demoReducer, newGroup } from './reducer'
 const STORAGE_KEY = 'group-draws-demo-state'
 
 function loadPersisted(): DemoState | null {
+  let raw: string | null = null
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return null
-    const parsed = JSON.parse(raw) as Partial<DemoState>
-    if (parsed.version !== STATE_VERSION || !Array.isArray(parsed.groups) || !Array.isArray(parsed.ledger)) return null
-    // Role is never restored from storage: elevated access must not survive a reload.
-    return { ...(parsed as DemoState), role: 'guest' }
+    raw = window.localStorage.getItem(STORAGE_KEY)
   } catch {
     return null
   }
+  const state = parsePersistedState(raw)
+  if (raw !== null && state === null) {
+    // Corrupt, outdated or hand-edited data: discard it so the app can never get stuck on it.
+    try {
+      window.localStorage.removeItem(STORAGE_KEY)
+    } catch {
+      /* ignore */
+    }
+  }
+  return state
 }
 
 function persist(state: DemoState): void {
@@ -235,6 +242,8 @@ export function DemoProvider({
         if (amount < s.config.minDeposit) return fail(`The minimum deposit is ${formatINR(s.config.minDeposit)}.`)
         if (amount > MAX_DEPOSIT) return fail(`The maximum single deposit is ${formatINR(MAX_DEPOSIT)}.`)
         if (s.config.maintenance) return fail('Deposits are paused for maintenance.')
+        const block = activeBlock(s.safety, Date.now())
+        if (block) return fail(`${block} Deposits are paused until it ends.`)
         dispatch({
           type: 'ledger',
           entry: { id: uid('l'), playerId: s.currentPlayerId, type: 'deposit', amount, description: 'Demo deposit (play money)', createdAt: at() },
@@ -276,7 +285,12 @@ export function DemoProvider({
         if (hourlySpend !== null && dailySpend !== null && hourlySpend > dailySpend) {
           return fail('Your hourly limit cannot be higher than your daily limit.')
         }
-        dispatch({ type: 'saveLimits', limits })
+        const nowMs = Date.now()
+        const s = current()
+        // Fold in any pending change that has already matured before planning the new one.
+        const base = effectiveLimits(s.safety, nowMs)
+        const plan = planLimitChange(base, limits, nowMs)
+        dispatch({ type: 'saveLimits', limits: plan.limits, pending: plan.pending })
         return ok
       },
 
@@ -318,8 +332,17 @@ export function DemoProvider({
         if (patch.platformFeePct !== undefined && (!Number.isFinite(patch.platformFeePct) || patch.platformFeePct < 0 || patch.platformFeePct > 30)) {
           return fail('Platform fee must be between 0% and 30%.')
         }
-        if (patch.minDeposit !== undefined && !isWholeRupees(patch.minDeposit)) return fail('Minimum deposit must be a whole rupee amount.')
-        if (patch.maxWithdrawal !== undefined && !isWholeRupees(patch.maxWithdrawal)) return fail('Maximum withdrawal must be a whole rupee amount.')
+        if (patch.platformFeePct !== undefined && Math.round(patch.platformFeePct * 100) !== patch.platformFeePct * 100) {
+          return fail('Platform fee can have at most two decimal places.')
+        }
+        if (patch.minDeposit !== undefined) {
+          if (!isWholeRupees(patch.minDeposit)) return fail('Minimum deposit must be a whole rupee amount.')
+          if (patch.minDeposit > MAX_DEPOSIT) return fail(`Minimum deposit cannot exceed the ${formatINR(MAX_DEPOSIT)} deposit cap.`)
+        }
+        if (patch.maxWithdrawal !== undefined) {
+          if (!isWholeRupees(patch.maxWithdrawal)) return fail('Maximum withdrawal must be a whole rupee amount.')
+          if (patch.maxWithdrawal > MAX_WITHDRAWAL_CAP) return fail(`Maximum withdrawal cannot exceed ${formatINR(MAX_WITHDRAWAL_CAP)}.`)
+        }
         dispatch({ type: 'updateConfig', patch })
         return ok
       },

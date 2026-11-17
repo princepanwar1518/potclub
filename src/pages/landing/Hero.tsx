@@ -58,7 +58,7 @@ function LiveGroupsCard() {
             </dd>
           </div>
         </dl>
-        <p className="mt-2 text-[11px] leading-snug text-muted">Prize pools shown after the {state.config.platformFeePct}% platform fee.</p>
+        <p className="mt-2 text-[11px] leading-snug text-muted">Prize pools are shown after platform fees.</p>
 
         <ButtonLink to="/dashboard" variant="mint" className="mt-4 w-full">
           Explore open groups <ArrowRight aria-hidden="true" className="size-4" />

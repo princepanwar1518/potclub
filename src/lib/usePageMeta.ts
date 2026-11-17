@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 
 export interface PageMeta {
   title: string
@@ -19,7 +19,8 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string): vo
 
 /** Sets document title, description and robots directive for the current route. */
 export function usePageMeta({ title, description, noIndex = false }: PageMeta): void {
-  useEffect(() => {
+  // Layout effect: metadata is in place before paint and before tests or crawlers read it.
+  useLayoutEffect(() => {
     document.title = title
     upsertMeta('name', 'description', description)
     upsertMeta('name', 'robots', noIndex ? 'noindex, nofollow' : 'index, follow')

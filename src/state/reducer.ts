@@ -7,6 +7,7 @@ import type {
   GroupSize,
   LedgerEntry,
   PlatformConfig,
+  PendingLimits,
   PlayerId,
   PlayLimits,
 } from '../domain/types'
@@ -20,7 +21,7 @@ export type DemoAction =
   | { type: 'startGrace'; groupId: string; at: string; autoPicks: Record<PlayerId, number> }
   | { type: 'settle'; groupId: string; at: string; winningCard: number; notificationId: string; ledgerId: string }
   | { type: 'ledger'; entry: LedgerEntry }
-  | { type: 'saveLimits'; limits: PlayLimits }
+  | { type: 'saveLimits'; limits: PlayLimits; pending: PendingLimits | null }
   | { type: 'timeout'; until: string }
   | { type: 'selfExclude'; until: string }
   | { type: 'applyReferral'; code: string }
@@ -161,7 +162,7 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
       return { ...state, ledger: [...state.ledger, action.entry] }
 
     case 'saveLimits':
-      return { ...state, safety: { ...state.safety, limits: action.limits } }
+      return { ...state, safety: { ...state.safety, limits: action.limits, pendingLimits: action.pending } }
 
     case 'timeout':
       return { ...state, safety: { ...state.safety, timeoutUntil: action.until } }

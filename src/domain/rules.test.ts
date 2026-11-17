@@ -119,3 +119,39 @@ describe('cards', () => {
     expect(availableCards(g, 'a')).toContain(1)
   })
 })
+
+describe('responsible-play safeguards (audit findings A-4, A-5)', () => {
+  const NOW_MS = Date.parse('2026-11-17T08:00:00Z')
+
+  it('applies tighter limits immediately and queues looser ones for 24 hours', async () => {
+    const { planLimitChange, effectiveLimits } = await import('./rules')
+    const current = { hourlySpend: 1000, dailySpend: 5000, dailyLoss: null }
+    const plan = planLimitChange(current, { hourlySpend: 500, dailySpend: 20000, dailyLoss: 3000 }, NOW_MS)
+    expect(plan.limits).toEqual({ hourlySpend: 500, dailySpend: 5000, dailyLoss: 3000 })
+    expect(plan.pending).toEqual({ changes: { dailySpend: 20000 }, effectiveAt: '2026-11-18T08:00:00.000Z' })
+    const safety = { limits: plan.limits, pendingLimits: plan.pending }
+    expect(effectiveLimits(safety, NOW_MS + 23 * 3_600_000).dailySpend).toBe(5000)
+    expect(effectiveLimits(safety, NOW_MS + 24 * 3_600_000).dailySpend).toBe(20000)
+  })
+
+  it('treats removing a limit as loosening', async () => {
+    const { planLimitChange } = await import('./rules')
+    const plan = planLimitChange({ hourlySpend: null, dailySpend: 5000, dailyLoss: null }, { hourlySpend: null, dailySpend: null, dailyLoss: null }, NOW_MS)
+    expect(plan.limits.dailySpend).toBe(5000)
+    expect(plan.pending?.changes).toEqual({ dailySpend: null })
+  })
+
+  it('keeps enforcing the old limit during cooling-off', () => {
+    const s = withBalance(createSeedState(), 100000)
+    const state = {
+      ...s,
+      safety: {
+        ...s.safety,
+        limits: { hourlySpend: null, dailySpend: 15000, dailyLoss: null },
+        pendingLimits: { changes: { dailySpend: null }, effectiveAt: '2026-11-18T08:00:00Z' },
+      },
+    }
+    expect(canJoin(state, 'g-1002', NOW).ok).toBe(false)
+    expect(canJoin(state, 'g-1002', Date.parse('2026-11-18T08:00:01Z')).ok).toBe(true)
+  })
+})

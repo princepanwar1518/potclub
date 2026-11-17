@@ -66,8 +66,15 @@ export interface PlayLimits {
   dailyLoss: number | null
 }
 
+/** Loosened limits wait out a cooling-off period before they apply (responsible-play standard). */
+export interface PendingLimits {
+  changes: Partial<PlayLimits>
+  effectiveAt: string
+}
+
 export interface SafetyState {
   limits: PlayLimits
+  pendingLimits: PendingLimits | null
   timeoutUntil: string | null
   selfExcludedUntil: string | null
 }

@@ -3,6 +3,7 @@ import { useId, useState, type FormEvent, type ReactNode } from 'react'
 import { Button } from '../../components/ui/Button'
 import { Notice } from '../../components/ui/Notice'
 import { Card } from '../../components/ui/primitives'
+import { LIMIT_COOLING_OFF_HOURS } from '../../domain/rules'
 import type { PlayLimits, Result } from '../../domain/types'
 import { formatDateTime, formatINR } from '../../lib/format'
 import { useAsyncAction } from '../../lib/useAsyncAction'
@@ -48,7 +49,10 @@ function LimitsForm() {
       dailySpend: parse(values.dailySpend),
       dailyLoss: parse(values.dailyLoss),
     }
-    void save.run(() => actions.saveLimits(limits), 'Limits saved. They apply to your next entry.')
+    void save.run(
+      () => actions.saveLimits(limits),
+      'Saved. Lower limits apply immediately; raised or removed limits wait out the cooling-off period.',
+    )
   }
 
   return (
@@ -56,7 +60,11 @@ function LimitsForm() {
       <h3 className="flex items-center gap-2 text-lg">
         <ShieldCheck aria-hidden="true" className="size-5 text-mint-600" /> Spending limits
       </h3>
-      <p className="mt-1 text-sm text-muted">Limits are checked before every paid entry. Leave a field empty for no limit.</p>
+      <p className="mt-1 text-sm text-muted">
+        Limits are checked before every paid entry. Leave a field empty for no limit. Lowering a limit takes effect at once;
+        raising or removing one takes effect after {LIMIT_COOLING_OFF_HOURS} hours.
+      </p>
+      <PendingNotice />
       <form onSubmit={submit} noValidate className="mt-4 grid gap-4 sm:grid-cols-3">
         {LIMIT_FIELDS.map((f) => (
           <div key={f.key}>
@@ -87,6 +95,23 @@ function LimitsForm() {
       {save.state.status === 'error' ? <Notice tone="error" className="mt-3">{save.state.message}</Notice> : null}
       {save.state.status === 'success' ? <Notice tone="success" className="mt-3">{save.state.message}</Notice> : null}
     </Card>
+  )
+}
+
+function PendingNotice() {
+  const { state } = useDemo()
+  const now = useNow()
+  const p = state.safety.pendingLimits
+  if (!p || Date.parse(p.effectiveAt) <= now) return null
+  const names: Record<keyof PlayLimits, string> = { hourlySpend: 'Hourly spend', dailySpend: 'Daily spend', dailyLoss: 'Daily loss' }
+  const parts = (Object.keys(p.changes) as (keyof PlayLimits)[]).map((k) => {
+    const v = p.changes[k]
+    return `${names[k]} → ${v === null || v === undefined ? 'no limit' : formatINR(v)}`
+  })
+  return (
+    <Notice tone="info" className="mt-3">
+      Pending: {parts.join(', ')} from <strong>{formatDateTime(p.effectiveAt)}</strong>. Until then your current limits still apply.
+    </Notice>
   )
 }
 

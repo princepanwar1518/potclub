@@ -1,6 +1,6 @@
 import type { DemoState, Group, GroupSize, LedgerEntry, Player, PlayerId } from './types'
 
-export const STATE_VERSION = 1
+export const STATE_VERSION = 2
 export const GUEST_ID: PlayerId = 'p-600001'
 
 /**
@@ -180,7 +180,12 @@ export function createSeedState(): DemoState {
     groups,
     ledger,
     config: { platformFeePct: 12, minDeposit: 200, maxWithdrawal: 100000, maintenance: false },
-    safety: { limits: { hourlySpend: null, dailySpend: null, dailyLoss: null }, timeoutUntil: null, selfExcludedUntil: null },
+    safety: {
+      limits: { hourlySpend: null, dailySpend: null, dailyLoss: null },
+      pendingLimits: null,
+      timeoutUntil: null,
+      selfExcludedUntil: null,
+    },
     notifications: [
       {
         id: 'n-1',
