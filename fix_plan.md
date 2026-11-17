@@ -6,11 +6,11 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 ## Tasks (highest priority first)
 - [x] 0. Analyse reference site and write `reference-spec.md` (tokens, routes, sections, defects with numbers)
 - [x] 1. Scaffold project: Vite 8 + React 19 + strict TypeScript 7 + Tailwind v4 + react-router 7 (lazy routes) + oxlint + Vitest; route shells for `/`, `/dashboard`, `/admin` (secure default, no controls), 404, error boundary; `usePageMeta` (title/description/robots); `npm run check` passes; git init + first commit
-- [ ] 2. Design tokens + global styles (fonts Fredoka/DM Sans self-hosted via @fontsource, cream bg, dot pattern, pastel glows, buttons, cards); light mode only (`color-scheme: light`)
-- [ ] 3. Brand-neutral layout: sticky header with generic placeholder slot (NO name/logo), footer with 18+ notice
-- [ ] 4. Landing: hero + live-groups card (with loading skeleton, fixes defect 7)
-- [ ] 5. Landing: how-it-works 4 steps, 3 feature cards, CTA band
-- [ ] 6. Mock data layer (typed, in-memory, deterministic): groups, draws, ledger, leaderboard derived from draws; prize = fee×size×(1−fee%) (fixes 2, 6)
+- [x] 2. Design tokens + global styles (fonts Fredoka/DM Sans self-hosted via @fontsource, cream bg, dot pattern, pastel glows, buttons, cards); light mode only (`color-scheme: light`)
+- [x] 3. Brand-neutral layout: sticky header with generic placeholder slot (NO name/logo), footer with 18+ notice
+- [x] 4. Landing: hero + live-groups card (with loading skeleton, fixes defect 7)
+- [x] 5. Landing: how-it-works 4 steps, 3 feature cards, CTA band
+- [x] 6. Mock data layer (typed, in-memory, deterministic): groups, draws, ledger, leaderboard derived from draws; prize = fee×size×(1−fee%) (fixes 2, 6)
 - [ ] 7. Dashboard: header chips, 4 stat cards (games count derived from ledger, fixes 3), accessible tabs
 - [ ] 8. Available Groups tab + Quick Play filter; Join disabled with reason when balance < fee (fixes 4)
 - [ ] 9. Draw History (sorted newest first, fixes 5), Leaderboard (fixes 6), Alerts tab

@@ -1,5 +1,7 @@
 import type { RouteObject } from 'react-router'
 import { RouteErrorPage } from '../pages/RouteErrorPage'
+import { RouteFallback } from '../pages/RouteFallback'
+import { AppRoot } from './AppRoot'
 
 /**
  * Route table shared by the browser router and tests.
@@ -8,7 +10,9 @@ import { RouteErrorPage } from '../pages/RouteErrorPage'
 export const routes: RouteObject[] = [
   {
     path: '/',
+    element: <AppRoot />,
     errorElement: <RouteErrorPage />,
+    hydrateFallbackElement: <RouteFallback />,
     children: [
       { index: true, lazy: async () => ({ Component: (await import('../pages/LandingPage')).LandingPage }) },
       { path: 'dashboard', lazy: async () => ({ Component: (await import('../pages/DashboardPage')).DashboardPage }) },

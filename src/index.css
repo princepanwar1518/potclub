@@ -109,7 +109,7 @@
       radial-gradient(40rem 28rem at 8% 6%, rgb(255 214 186 / 0.45), transparent 70%),
       radial-gradient(36rem 30rem at 92% 14%, rgb(214 200 255 / 0.4), transparent 70%),
       radial-gradient(40rem 30rem at 50% 55%, rgb(255 210 228 / 0.28), transparent 70%),
-      radial-gradient(36rem 28rem at 96% 96%, rgb(196 240 226 / 0.4), transparent 70%),
+      radial-gradient(36rem 28rem at 96% 99%, rgb(196 240 226 / 0.4), transparent 70%),
       radial-gradient(rgb(116 79 177 / 0.13) 1px, transparent 1.4px);
     background-size:
       auto,
@@ -117,7 +117,6 @@
       auto,
       auto,
       22px 22px;
-    background-attachment: fixed, fixed, fixed, fixed, scroll;
   }
 
   h1,

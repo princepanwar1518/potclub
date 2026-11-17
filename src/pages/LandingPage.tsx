@@ -1,30 +1,28 @@
-import { Link } from 'react-router'
+import { SiteFooter } from '../components/layout/SiteFooter'
+import { SiteHeader } from '../components/layout/SiteHeader'
+import { pageTitle } from '../config/brand'
 import { usePageMeta } from '../lib/usePageMeta'
+import { CtaBand } from './landing/CtaBand'
+import { Hero } from './landing/Hero'
+import { Features, HowItWorks } from './landing/HowItWorks'
 
-/**
- * Landing route. Scaffold version: semantic shell with working navigation.
- * Hero, how-it-works, features and CTA sections are built in fix_plan tasks 4–5.
- */
 export function LandingPage() {
   usePageMeta({
-    title: 'Group draws — pick a number, enjoy the moment',
+    title: pageTitle('Pick a number, enjoy the moment — instant group draws'),
     description:
-      'Join a small player group, pick a unique card and watch the live draw when the group fills. Demo experience with mock data.',
+      'Join a 5, 10, 15 or 20-player group, pick a unique card and watch the live draw the moment the group fills. Spend limits, time-outs and self-exclusion built in.',
   })
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-3xl flex-col items-start justify-center gap-6 px-6 py-16">
-      <h1 className="text-4xl font-semibold tracking-tight">Pick a number. Enjoy the moment.</h1>
-      <p className="text-lg text-slate-600">
-        Join a friendly group, choose your lucky card, and share the excitement as the live draw unfolds when the
-        group fills.
-      </p>
-      <Link
-        to="/dashboard"
-        className="rounded-2xl bg-[#6D5AE6] px-5 py-3 font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6D5AE6]"
-      >
-        Find my group
-      </Link>
-    </main>
+    <>
+      <SiteHeader />
+      <main id="main">
+        <Hero />
+        <HowItWorks />
+        <Features />
+        <CtaBand />
+      </main>
+      <SiteFooter />
+    </>
   )
 }

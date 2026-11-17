@@ -1,9 +1,9 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
-/** Centered page width used by every section (reference content width ≈ 970px at 1512 viewport, 1200 max). */
+/** Centered page width used by every section (reference content width ≈ 970px; max-w-5xl minus padding = 960px). */
 export function Container({ className, ...rest }: ComponentPropsWithoutRef<'div'>) {
-  return <div className={cn('mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8', className)} {...rest} />
+  return <div className={cn('mx-auto w-full max-w-5xl px-5 sm:px-6 lg:px-8', className)} {...rest} />
 }
 
 export function Card({ className, ...rest }: ComponentPropsWithoutRef<'div'>) {
