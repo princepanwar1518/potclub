@@ -1,20 +1,178 @@
 @import 'tailwindcss';
+@import '@fontsource/fredoka/latin-600.css';
+@import '@fontsource-variable/dm-sans/wght.css';
 
-/* Light mode only. Full design tokens arrive in fix_plan task 2. */
-:root {
-  color-scheme: light;
+/*
+ * Design tokens — values taken from computed styles of the reference (see reference-spec.md).
+ * Light mode only: there is intentionally no dark variant.
+ */
+@theme {
+  --font-sans: 'DM Sans Variable', 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fredoka', 'DM Sans Variable', system-ui, sans-serif;
+
+  /* Brand gradient stops */
+  --color-indigo: #6d5ae6;
+  --color-orchid: #af55c9;
+  --color-rose: #f06e87;
+  --color-grape: #a653d7;
+
+  /* Neutrals */
+  --color-cream: oklch(0.985 0.015 90);
+  --color-ink: oklch(0.255 0.035 285);
+  --color-heading: #3f315f;
+  --color-muted: #6b6286;
+  --color-violet: #5b3b9b;
+  --color-line: oklch(0.89 0.035 285);
+  --color-line-soft: rgb(116 79 177 / 0.14);
+
+  /* Pastel chips */
+  --color-lilac-50: #f1edff;
+  --color-lilac-600: #6d5ae6;
+  --color-pink-50: #ffe9ef;
+  --color-pink-600: #d9466b;
+  --color-amber-50: #fff3d6;
+  --color-amber-600: #b7791f;
+  --color-mint-50: #dcf7ec;
+  --color-mint-600: #18825c;
+  --color-sky-50: #e4f1ff;
+  --color-sky-600: #2f6fb8;
+
+  /* Semantic */
+  --color-success: #15803d;
+  --color-danger: #c2334d;
+  --color-warning: #a16207;
+
+  --radius-btn: 16px;
+  --radius-card: 20px;
+  --radius-panel: 24px;
+
+  --shadow-header: 0 8px 25px rgb(97 68 142 / 0.06);
+  --shadow-card: 0 1px 2px rgb(63 49 95 / 0.04), 0 10px 30px -12px rgb(97 68 142 / 0.14);
+  --shadow-float: 0 30px 60px -20px rgb(97 68 142 / 0.28);
+  --shadow-btn: 0 9px 18px rgb(109 90 230 / 0.24);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(2deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(2deg);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    /* Soft pastel glows + dotted texture, as on the reference */
+    background-image:
+      radial-gradient(40rem 28rem at 8% 6%, rgb(255 214 186 / 0.45), transparent 70%),
+      radial-gradient(36rem 30rem at 92% 14%, rgb(214 200 255 / 0.4), transparent 70%),
+      radial-gradient(40rem 30rem at 50% 55%, rgb(255 210 228 / 0.28), transparent 70%),
+      radial-gradient(36rem 28rem at 96% 96%, rgb(196 240 226 / 0.4), transparent 70%),
+      radial-gradient(rgb(116 79 177 / 0.13) 1px, transparent 1.4px);
+    background-size:
+      auto,
+      auto,
+      auto,
+      auto,
+      22px 22px;
+    background-attachment: fixed, fixed, fixed, fixed, scroll;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgb(109 90 230 / 0.2);
+  }
 }
 
-body {
-  margin: 0;
-  min-height: 100dvh;
-  background-color: oklch(0.985 0.015 90);
-  color: oklch(0.255 0.035 285);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
+@utility text-gradient {
+  background-image: linear-gradient(to right, var(--color-indigo) 0%, var(--color-orchid) 50%, var(--color-rose) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(105deg, var(--color-indigo), var(--color-grape));
+}
+
+@utility bg-band-gradient {
+  background-image: linear-gradient(90deg, var(--color-indigo) 0%, var(--color-orchid) 55%, #e8618c 100%);
+}
+
+@utility skeleton {
+  background-image: linear-gradient(90deg, rgb(116 79 177 / 0.08) 25%, rgb(116 79 177 / 0.16) 50%, rgb(116 79 177 / 0.08) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
