@@ -5,7 +5,8 @@ import { EmptyState, Notice } from '../../components/ui/Notice'
 import { Badge, Card } from '../../components/ui/primitives'
 import { canJoin, DEFAULT_ENTRY_FEE, openGroups, prizeBreakdown } from '../../domain/rules'
 import { GROUP_SIZES, type Group, type GroupSize } from '../../domain/types'
-import { formatINR } from '../../lib/format'
+import { CoinAmount } from '../../components/ui/CoinAmount'
+import { formatCoins, formatNumber } from '../../lib/format'
 import { cn } from '../../lib/cn'
 import { useAsyncAction } from '../../lib/useAsyncAction'
 import { useDemo, useNow } from '../../state/context'
@@ -33,15 +34,15 @@ function GroupCard({ group }: { group: Group }) {
       <dl className="mt-4 grid grid-cols-2 gap-3">
         <div>
           <dt className="text-[11px] font-semibold tracking-[0.12em] text-muted uppercase">Entry fee</dt>
-          <dd className="font-display text-xl font-semibold text-mint-600">{formatINR(group.entryFee)}</dd>
+          <dd className="font-display text-xl font-semibold text-mint-600"><CoinAmount value={group.entryFee} /></dd>
         </div>
         <div>
           <dt className="text-[11px] font-semibold tracking-[0.12em] text-muted uppercase">Prize pool</dt>
-          <dd className="font-display text-xl font-semibold text-amber-600">{formatINR(prize)}</dd>
+          <dd className="font-display text-xl font-semibold text-amber-600"><CoinAmount value={prize} /></dd>
         </div>
       </dl>
       <p className="mt-1 text-xs text-muted">
-        {formatINR(grossPool)} collected − {formatINR(platformFee)} ({group.feePct}% fee)
+        {formatNumber(grossPool)} collected − {formatNumber(platformFee)} ({group.feePct}% fee)
       </p>
 
       <div className="mt-4 flex items-center justify-between gap-3 text-sm">
@@ -68,7 +69,7 @@ function GroupCard({ group }: { group: Group }) {
           className="w-full"
           disabled={!eligibility.ok || pending}
           aria-describedby={!eligibility.ok ? reasonId : undefined}
-          onClick={() => void run(() => actions.join(group.id), `You joined group #${group.number}. ${formatINR(group.entryFee)} play money deducted.`)}
+          onClick={() => void run(() => actions.join(group.id), `You joined group #${group.number}. ${formatCoins(group.entryFee)} used.`)}
         >
           {pending ? <LoaderCircle aria-hidden="true" className="size-4 animate-spin" /> : null}
           {joined ? 'Waiting for players' : pending ? 'Joining…' : 'Join Group'}
@@ -111,10 +112,10 @@ export function GroupsTab() {
                 variant="secondary"
                 className="rounded-full bg-white"
                 disabled={quick.pending}
-                title={`Join or start a ${size}-player group (${formatINR(DEFAULT_ENTRY_FEE[size])} entry)`}
+                title={`Join or start a ${size}-player group (${formatCoins(DEFAULT_ENTRY_FEE[size])} entry)`}
                 onClick={() => void quick.run(() => actions.quickPlay(size), `You're in a ${size}-player group. We'll start the draw as soon as it fills.`)}
               >
-                {size}P <span className="text-xs font-normal text-muted">{formatINR(DEFAULT_ENTRY_FEE[size])}</span>
+                {size}P <span className="text-xs font-normal text-muted">{formatNumber(DEFAULT_ENTRY_FEE[size])}</span>
               </Button>
             ))}
           </div>

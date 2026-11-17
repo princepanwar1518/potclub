@@ -9,7 +9,7 @@ import { TabList } from '../components/ui/Tabs'
 import { pageTitle } from '../config/brand'
 import { adminSummary, drawHistory, groupPrize, playerLabel, prizeBreakdown } from '../domain/rules'
 import type { PlatformConfig } from '../domain/types'
-import { formatDateTime, formatINR, formatNumber, formatPercent } from '../lib/format'
+import { formatDateTime, formatCoins, formatNumber, formatPercent } from '../lib/format'
 import { tabPanelProps } from '../lib/tabs'
 import { useAsyncAction } from '../lib/useAsyncAction'
 import { usePageMeta } from '../lib/usePageMeta'
@@ -69,7 +69,7 @@ function AdminDashboard() {
   const [tab, setTab] = useState<AdminTab>('config')
 
   const stats = [
-    { label: 'Total revenue', value: formatINR(summary.totalRevenue), hint: 'Platform fees from settled draws' },
+    { label: 'Fees collected', value: formatCoins(summary.totalRevenue), hint: 'Play coins from settled draws' },
     { label: 'Total draws', value: formatNumber(summary.totalDraws), hint: 'Settled' },
     { label: 'Total players', value: formatNumber(summary.totalPlayers), hint: 'Seen in any group' },
     { label: 'Active groups', value: formatNumber(summary.activeGroups), hint: 'Open, picking or revealing' },
@@ -142,7 +142,7 @@ function ConfigRow({
   label: string
   current: string
   hint: string
-  field: 'platformFeePct' | 'minDeposit' | 'maxWithdrawal'
+  field: 'platformFeePct' | 'minTopUp'
   suffix: string
 }) {
   const { actions } = useDemo()
@@ -152,7 +152,7 @@ function ConfigRow({
 
   async function submit(e: FormEvent) {
     e.preventDefault()
-    const n = Number(value.replace(/[,\s₹%]/g, ''))
+    const n = Number(value.replace(/[,\s%]/g, ''))
     const patch: Partial<PlatformConfig> = { [field]: value.trim() === '' ? Number.NaN : n }
     const r = await act.run(() => actions.updateConfig(patch), `${label} updated.`)
     if (r.ok) setValue('')
@@ -177,7 +177,7 @@ function ConfigRow({
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="New value"
-              className="h-10 w-36 rounded-xl border border-line bg-white px-3 pr-8 text-sm outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="h-10 w-40 rounded-xl border border-line bg-white px-3 pr-14 text-sm outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
             />
             <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs text-muted">
               {suffix}
@@ -209,8 +209,7 @@ function ConfigPanel() {
         current={formatPercent(state.config.platformFeePct)}
         hint="Applies to new groups only; existing groups keep their fee"
       />
-      <ConfigRow label="Minimum deposit" field="minDeposit" suffix="₹" current={formatINR(state.config.minDeposit)} hint="Per deposit" />
-      <ConfigRow label="Maximum withdrawal" field="maxWithdrawal" suffix="₹" current={formatINR(state.config.maxWithdrawal)} hint="Per withdrawal" />
+      <ConfigRow label="Minimum top-up" field="minTopUp" suffix="coins" current={formatCoins(state.config.minTopUp)} hint="Per free top-up" />
       <Card className="p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -218,7 +217,7 @@ function ConfigPanel() {
               <Wrench aria-hidden="true" className="size-4" /> Maintenance mode
             </h3>
             <p className="text-sm text-muted">
-              Status: <Badge tone={on ? 'pink' : 'mint'}>{on ? 'Enabled' : 'Disabled'}</Badge> · pauses joins and deposits
+              Status: <Badge tone={on ? 'pink' : 'mint'}>{on ? 'Enabled' : 'Disabled'}</Badge> · pauses joins and top-ups
             </p>
           </div>
           {confirming ? (
@@ -278,9 +277,9 @@ function DrawsPanel() {
                 </th>
                 <td className="px-3 py-3 text-muted">{g.settledAt ? formatDateTime(g.settledAt) : '—'}</td>
                 <td className="px-3 py-3">{playerLabel(state, g.winnerId)}</td>
-                <td className="px-3 py-3 tabular-nums">{formatINR(b.grossPool)}</td>
-                <td className="px-3 py-3 tabular-nums">{formatINR(b.platformFee)}</td>
-                <td className="px-3 py-3 font-semibold text-mint-600 tabular-nums">{formatINR(groupPrize(g))}</td>
+                <td className="px-3 py-3 tabular-nums">{formatCoins(b.grossPool)}</td>
+                <td className="px-3 py-3 tabular-nums">{formatCoins(b.platformFee)}</td>
+                <td className="px-3 py-3 font-semibold text-mint-600 tabular-nums">{formatCoins(groupPrize(g))}</td>
               </tr>
             )
           })}

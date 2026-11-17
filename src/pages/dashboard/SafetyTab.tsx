@@ -5,14 +5,14 @@ import { Notice } from '../../components/ui/Notice'
 import { Card } from '../../components/ui/primitives'
 import { LIMIT_COOLING_OFF_HOURS } from '../../domain/rules'
 import type { PlayLimits, Result } from '../../domain/types'
-import { formatDateTime, formatINR } from '../../lib/format'
+import { formatDateTime, formatCoins } from '../../lib/format'
 import { useAsyncAction } from '../../lib/useAsyncAction'
 import { useDemo, useNow } from '../../state/context'
 
 const LIMIT_FIELDS: { key: keyof PlayLimits; label: string; hint: string }[] = [
-  { key: 'hourlySpend', label: 'Hourly spend limit (₹)', hint: 'Total entry fees in any 60 minutes' },
-  { key: 'dailySpend', label: 'Daily spend limit (₹)', hint: 'Total entry fees in any 24 hours' },
-  { key: 'dailyLoss', label: 'Daily loss limit (₹)', hint: 'Entries minus prizes in any 24 hours' },
+  { key: 'hourlySpend', label: 'Hourly spend limit (coins)', hint: 'Total entry fees in any 60 minutes' },
+  { key: 'dailySpend', label: 'Daily spend limit (coins)', hint: 'Total entry fees in any 24 hours' },
+  { key: 'dailyLoss', label: 'Daily loss limit (coins)', hint: 'Entries minus prizes in any 24 hours' },
 ]
 
 const TIMEOUTS = [
@@ -40,7 +40,7 @@ function LimitsForm() {
   function submit(e: FormEvent) {
     e.preventDefault()
     const parse = (v: string): number | null => {
-      const t = v.replace(/[,\s₹]/g, '')
+      const t = v.replace(/[,\s]/g, '')
       if (t === '') return null
       return /^\d+$/.test(t) ? Number(t) : Number.NaN
     }
@@ -82,7 +82,7 @@ function LimitsForm() {
             />
             <p id={`${baseId}-${f.key}-hint`} className="mt-1 text-xs text-muted">
               {f.hint}
-              {state.safety.limits[f.key] !== null ? ` · current ${formatINR(state.safety.limits[f.key] ?? 0)}` : ''}
+              {state.safety.limits[f.key] !== null ? ` · current ${formatCoins(state.safety.limits[f.key] ?? 0)}` : ''}
             </p>
           </div>
         ))}
@@ -106,7 +106,7 @@ function PendingNotice() {
   const names: Record<keyof PlayLimits, string> = { hourlySpend: 'Hourly spend', dailySpend: 'Daily spend', dailyLoss: 'Daily loss' }
   const parts = (Object.keys(p.changes) as (keyof PlayLimits)[]).map((k) => {
     const v = p.changes[k]
-    return `${names[k]} → ${v === null || v === undefined ? 'no limit' : formatINR(v)}`
+    return `${names[k]} → ${v === null || v === undefined ? 'no limit' : formatCoins(v)}`
   })
   return (
     <Notice tone="info" className="mt-3">

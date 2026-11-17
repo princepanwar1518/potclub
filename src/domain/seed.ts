@@ -1,16 +1,16 @@
 import type { DemoState, Group, GroupSize, LedgerEntry, Player, PlayerId } from './types'
 
-export const STATE_VERSION = 2
+export const STATE_VERSION = 3
 export const GUEST_ID: PlayerId = 'p-600001'
 
 /**
  * Deterministic demo data reconstructed from the reference so every screen agrees:
- *  - Guest ledger: deposits 5,000 + 20,000 + 55,000 = 80,000; entries 20,000 + 100 + 50,000 = 70,100;
+ *  - Guest ledger (play coins): top-ups 5,000 + 20,000 + 55,000 = 80,000; entries 20,000 + 100 + 50,000 = 70,100;
  *    balance 9,900; games 3; wins 0 (reference showed games = 1 — defect 3).
- *  - 5 settled 5-player draws at a 12% fee: 2 × ₹10,000 entry (prize ₹44,000, fee ₹6,000) and
- *    3 × ₹100 entry (prize ₹440, fee ₹60) → platform revenue ₹12,180, matching the reference admin.
- *  - 4 open groups, prize pools ₹1,76,000 + ₹1,76,000 + ₹3,96,000 + ₹8,80,000 = ₹16,28,000
- *    (reference displayed ₹18,50,000 by ignoring the fee — defect 2).
+ *  - 5 settled 5-player draws at a 12% fee: 2 × 10,000-coin entry (prize 44,000, fee 6,000) and
+ *    3 × 100-coin entry (prize 440, fee 60) → platform fees 12,180, matching the reference admin.
+ *  - 4 open groups, prize pools 1,76,000 + 1,76,000 + 3,96,000 + 8,80,000 = 16,28,000 coins
+ *    (reference displayed 18,50,000 by ignoring the fee — defect 2).
  */
 
 function player(id: PlayerId, isBot = true): Player {
@@ -164,11 +164,11 @@ export function createSeedState(): DemoState {
   players[GUEST_ID] = player(GUEST_ID, false)
 
   const ledger: LedgerEntry[] = [
-    { id: 'l-1', playerId: GUEST_ID, type: 'deposit', amount: 5000, description: 'Demo deposit', createdAt: '2026-11-03T16:04:33Z' },
-    { id: 'l-2', playerId: GUEST_ID, type: 'deposit', amount: 20000, description: 'Demo deposit', createdAt: '2026-11-03T16:04:52Z' },
+    { id: 'l-1', playerId: GUEST_ID, type: 'topup', amount: 5000, description: 'Free coin top-up', createdAt: '2026-11-03T16:04:33Z' },
+    { id: 'l-2', playerId: GUEST_ID, type: 'topup', amount: 20000, description: 'Free coin top-up', createdAt: '2026-11-03T16:04:52Z' },
     { id: 'l-3', playerId: GUEST_ID, type: 'entry', amount: -20000, description: 'Entry fee · 10-player group #1001', createdAt: '2026-11-03T16:04:58Z', groupId: 'g-1001' },
     { id: 'l-4', playerId: GUEST_ID, type: 'entry', amount: -100, description: 'Entry fee · 5-player group #151', createdAt: '2026-11-03T16:05:08Z', groupId: 'g-151' },
-    { id: 'l-5', playerId: GUEST_ID, type: 'deposit', amount: 55000, description: 'Demo deposit', createdAt: '2026-11-13T18:09:01Z' },
+    { id: 'l-5', playerId: GUEST_ID, type: 'topup', amount: 55000, description: 'Free coin top-up', createdAt: '2026-11-13T18:09:01Z' },
     { id: 'l-6', playerId: GUEST_ID, type: 'entry', amount: -50000, description: 'Entry fee · 20-player group #1004', createdAt: '2026-11-13T18:09:24Z', groupId: 'g-1004' },
   ]
 
@@ -179,7 +179,7 @@ export function createSeedState(): DemoState {
     players,
     groups,
     ledger,
-    config: { platformFeePct: 12, minDeposit: 200, maxWithdrawal: 100000, maintenance: false },
+    config: { platformFeePct: 12, minTopUp: 200, maintenance: false },
     safety: {
       limits: { hourlySpend: null, dailySpend: null, dailyLoss: null },
       pendingLimits: null,
@@ -191,7 +191,7 @@ export function createSeedState(): DemoState {
         id: 'n-1',
         kind: 'loss',
         title: 'Draw #151 settled',
-        body: 'Player #540002 won ₹440 with card 3. Better luck next time!',
+        body: 'Player #540002 won 440 coins with card 3. Better luck next time!',
         createdAt: '2026-11-13T18:14:00Z',
         read: true,
       },

@@ -1,4 +1,4 @@
-import { formatINR } from '../lib/format'
+import { formatCoins } from '../lib/format'
 import type { DemoState, Group, GroupSize, LedgerEntry, PendingLimits, Player, PlayerId, PlayLimits, Result, SafetyState } from './types'
 
 /** Default entry fee per group size (from the reference's open groups and 5-player draws). */
@@ -20,7 +20,7 @@ export interface PrizeBreakdown {
 
 /**
  * Fixes reference defect 2: the payout is the gross pool minus the platform fee.
- * ₹20,000 × 10 = ₹2,00,000 gross; 12% fee = ₹24,000; prize = ₹1,76,000.
+ * 20,000 coins × 10 = 2,00,000 gross; 12% fee = 24,000; prize = 1,76,000 coins.
  */
 export function prizeBreakdown(entryFee: number, size: number, feePct: number): PrizeBreakdown {
   const grossPool = entryFee * size
@@ -41,7 +41,7 @@ export interface PlayerStats {
   games: number
   wins: number
   winnings: number
-  totalDeposited: number
+  totalToppedUp: number
   totalEntries: number
 }
 
@@ -50,7 +50,7 @@ export function playerStats(state: Pick<DemoState, 'ledger' | 'groups'>, playerI
   let balance = 0
   let games = 0
   let winnings = 0
-  let totalDeposited = 0
+  let totalToppedUp = 0
   let totalEntries = 0
   for (const e of state.ledger) {
     if (e.playerId !== playerId) continue
@@ -60,12 +60,12 @@ export function playerStats(state: Pick<DemoState, 'ledger' | 'groups'>, playerI
       totalEntries += -e.amount
     } else if (e.type === 'prize') {
       winnings += e.amount
-    } else if (e.type === 'deposit') {
-      totalDeposited += e.amount
+    } else if (e.type === 'topup') {
+      totalToppedUp += e.amount
     }
   }
   const wins = state.groups.filter((g) => g.status === 'settled' && g.winnerId === playerId).length
-  return { balance, games, wins, winnings, totalDeposited, totalEntries }
+  return { balance, games, wins, winnings, totalToppedUp, totalEntries }
 }
 
 export function openGroups(groups: readonly Group[]): Group[] {
@@ -151,10 +151,10 @@ export function effectiveLimits(safety: Pick<SafetyState, 'limits' | 'pendingLim
   return { ...safety.limits, ...p.changes }
 }
 
-/** Reason the player is currently blocked from paid activity and deposits, if any. */
+/** Reason the player is currently blocked from group entries and coin top-ups, if any. */
 export function activeBlock(safety: Pick<SafetyState, 'timeoutUntil' | 'selfExcludedUntil'>, nowMs: number): string | null {
-  if (safety.selfExcludedUntil && Date.parse(safety.selfExcludedUntil) > nowMs) return 'You are self-excluded from paid groups.'
-  if (safety.timeoutUntil && Date.parse(safety.timeoutUntil) > nowMs) return 'You are on a time-out from paid groups.'
+  if (safety.selfExcludedUntil && Date.parse(safety.selfExcludedUntil) > nowMs) return 'You are self-excluded from joining groups.'
+  if (safety.timeoutUntil && Date.parse(safety.timeoutUntil) > nowMs) return 'You are on a time-out from joining groups.'
   return null
 }
 
@@ -178,12 +178,12 @@ function lossSince(ledger: readonly LedgerEntry[], playerId: PlayerId, sinceMs: 
  */
 export function canSpend(state: DemoState, amount: number, nowMs: number): Result {
   const pid = state.currentPlayerId
-  if (state.config.maintenance) return { ok: false, reason: 'Paid groups are paused for maintenance.' }
+  if (state.config.maintenance) return { ok: false, reason: 'Groups are paused for maintenance.' }
   const block = activeBlock(state.safety, nowMs)
   if (block) return { ok: false, reason: block }
   const balance = balanceOf(state.ledger, pid)
   if (balance < amount) {
-    return { ok: false, reason: `Insufficient balance — add ${formatINR(amount - balance)} to join.` }
+    return { ok: false, reason: `Not enough coins — you need ${formatCoins(amount - balance)} more to join.` }
   }
   const { hourlySpend, dailySpend, dailyLoss } = effectiveLimits(state.safety, nowMs)
   if (hourlySpend !== null && spentSince(state.ledger, pid, nowMs - HOUR_MS) + amount > hourlySpend) {

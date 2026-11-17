@@ -4,7 +4,7 @@ import { Notice } from '../../components/ui/Notice'
 import { Badge, Card } from '../../components/ui/primitives'
 import { availableCards, groupPrize, playerLabel } from '../../domain/rules'
 import type { Group } from '../../domain/types'
-import { formatCountdown, formatINR } from '../../lib/format'
+import { formatCountdown, formatCoins } from '../../lib/format'
 import { cn } from '../../lib/cn'
 import { useAsyncAction } from '../../lib/useAsyncAction'
 import { useDemo, useNow } from '../../state/context'
@@ -31,7 +31,7 @@ function DrawRoom({ group }: { group: Group }) {
             {isGrace ? 'Last look before the reveal' : 'Pick your lucky number'}
           </p>
           <h3 className="mt-1 text-xl">
-            {group.size}-Player Group #{group.number} · prize {formatINR(groupPrize(group))}
+            {group.size}-Player Group #{group.number} · prize {formatCoins(groupPrize(group))}
           </h3>
           <p className="mt-1 text-sm text-muted">
             {isGrace
@@ -107,12 +107,12 @@ function ResultCard({ group }: { group: Group }) {
         <div role="status">
           <h3 className="flex items-center gap-2 text-xl">
             {won ? <Trophy aria-hidden="true" className="size-5 text-amber-600" /> : null}
-            {won ? `You won ${formatINR(groupPrize(group))}!` : `Card ${group.winningCard} won draw #${group.number}`}
+            {won ? `You won ${formatCoins(groupPrize(group))}!` : `Card ${group.winningCard} won draw #${group.number}`}
           </h3>
           <p className="text-sm text-muted">
             {won
-              ? 'Demo prize credited to your play-money balance.'
-              : `${playerLabel(state, group.winnerId)} takes ${formatINR(groupPrize(group))}. Your card was ${group.picks[state.currentPlayerId] ?? '—'}.`}
+              ? 'Prize coins added to your balance. Coins have no cash value.'
+              : `${playerLabel(state, group.winnerId)} takes ${formatCoins(groupPrize(group))}. Your card was ${group.picks[state.currentPlayerId] ?? '—'}.`}
           </p>
         </div>
       </div>

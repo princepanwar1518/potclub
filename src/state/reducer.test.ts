@@ -9,7 +9,7 @@ const AT = '2026-11-17T08:00:00Z'
 function fundedState(): DemoState {
   return demoReducer(createSeedState(), {
     type: 'ledger',
-    entry: { id: 'dep', playerId: GUEST_ID, type: 'deposit', amount: 1000, description: 'test', createdAt: AT },
+    entry: { id: 'dep', playerId: GUEST_ID, type: 'topup', amount: 1000, description: 'test', createdAt: AT },
   })
 }
 

@@ -1,7 +1,8 @@
 import { ArrowRight, CircleCheck, Heart, Sparkles, Zap } from 'lucide-react'
 import { groupPrize, openGroups } from '../../domain/rules'
 import { GROUP_SIZES } from '../../domain/types'
-import { formatINR, formatNumber } from '../../lib/format'
+import { CoinAmount } from '../../components/ui/CoinAmount'
+import { formatNumber } from '../../lib/format'
 import { useDemo } from '../../state/context'
 import { ButtonLink } from '../../components/ui/Button'
 import { buttonClasses } from '../../components/ui/buttonClasses'
@@ -48,7 +49,7 @@ function LiveGroupsCard() {
           <div className="rounded-2xl border border-line-soft bg-white p-3.5">
             <dt className="text-xs text-muted">Prize pools</dt>
             <dd className="mt-1 font-display text-xl font-semibold text-mint-600">
-              {loading ? <span className="block h-6 w-24 skeleton" /> : formatINR(pools)}
+              {loading ? <span className="block h-6 w-24 skeleton" /> : <CoinAmount value={pools} />}
             </dd>
           </div>
           <div className="rounded-2xl border border-line-soft bg-white p-3.5">
@@ -58,7 +59,7 @@ function LiveGroupsCard() {
             </dd>
           </div>
         </dl>
-        <p className="mt-2 text-[11px] leading-snug text-muted">Prize pools are shown after platform fees.</p>
+        <p className="mt-2 text-[11px] leading-snug text-muted">Play coins only, no cash value. Pools shown after fees.</p>
 
         <ButtonLink to="/dashboard" variant="mint" className="mt-4 w-full">
           Explore open groups <ArrowRight aria-hidden="true" className="size-4" />

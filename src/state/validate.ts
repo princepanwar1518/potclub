@@ -21,7 +21,7 @@ const isNullable = <T,>(v: unknown, guard: (x: unknown) => x is T): boolean => v
 const isNonNegInt = (v: unknown): v is number => isInt(v) && v >= 0
 
 const GROUP_STATUS = new Set(['open', 'picking', 'grace', 'settled'])
-const LEDGER_TYPES = new Set(['deposit', 'withdrawal', 'entry', 'prize', 'bonus'])
+const LEDGER_TYPES = new Set(['topup', 'entry', 'prize', 'bonus'])
 const NOTE_KINDS = new Set(['win', 'loss', 'info'])
 const SIZES = new Set([5, 10, 15, 20])
 
@@ -117,8 +117,7 @@ export function parsePersistedState(raw: string | null): DemoState | null {
   if (
     !isObj(config) ||
     typeof config['platformFeePct'] !== 'number' ||
-    !isNonNegInt(config['minDeposit']) ||
-    !isNonNegInt(config['maxWithdrawal']) ||
+    !isNonNegInt(config['minTopUp']) ||
     !isBool(config['maintenance'])
   ) {
     return null

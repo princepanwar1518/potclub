@@ -1,28 +1,30 @@
 import { describe, expect, it } from 'vitest'
-import { formatCountdown, formatDateTime, formatINR, formatSignedINR } from './format'
+import { formatCountdown, formatDateTime, formatCoins, formatSignedCoins } from './format'
 
-describe('formatINR', () => {
+describe('formatCoins', () => {
   it.each([
-    [0, '₹0'],
-    [440, '₹440'],
-    [9900, '₹9,900'],
-    [100000, '₹1,00,000'],
-    [176000, '₹1,76,000'],
-    [1628000, '₹16,28,000'],
+    [0, '0 coins'],
+    [1, '1 coin'],
+    [440, '440 coins'],
+    [9900, '9,900 coins'],
+    [100000, '1,00,000 coins'],
+    [176000, '1,76,000 coins'],
+    [1628000, '16,28,000 coins'],
   ])('%d → %s', (input, expected) => {
-    expect(formatINR(input)).toBe(expected)
+    expect(formatCoins(input)).toBe(expected)
   })
 
-  it('rounds fractional rupees', () => {
-    expect(formatINR(439.6)).toBe('₹440')
+  it('rounds fractional coins and never shows a currency symbol', () => {
+    expect(formatCoins(439.6)).toBe('440 coins')
+    expect(formatCoins(176000)).not.toMatch(/[₹$]/)
   })
 })
 
-describe('formatSignedINR', () => {
+describe('formatSignedCoins', () => {
   it('prefixes credits and debits', () => {
-    expect(formatSignedINR(55000)).toBe('+₹55,000')
-    expect(formatSignedINR(-50000)).toBe('−₹50,000')
-    expect(formatSignedINR(0)).toBe('₹0')
+    expect(formatSignedCoins(55000)).toBe('+55,000 coins')
+    expect(formatSignedCoins(-50000)).toBe('−50,000 coins')
+    expect(formatSignedCoins(0)).toBe('0 coins')
   })
 })
 

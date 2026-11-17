@@ -1,9 +1,9 @@
-import { Settings, Volume2, VolumeX, Wallet } from 'lucide-react'
+import { Coins, Settings, Volume2, VolumeX } from 'lucide-react'
 import { Link } from 'react-router'
 import { BrandSlot } from '../../components/layout/BrandSlot'
 import { Container } from '../../components/ui/primitives'
 import { balanceOf, playerLabel } from '../../domain/rules'
-import { formatINR } from '../../lib/format'
+import { CoinAmount } from '../../components/ui/CoinAmount'
 import { useDemo } from '../../state/context'
 
 export function AppHeader() {
@@ -17,9 +17,9 @@ export function AppHeader() {
         <BrandSlot />
         <div className="flex items-center gap-2 sm:gap-3">
           <p className="inline-flex items-center gap-1.5 rounded-full border border-mint-600/20 bg-mint-50 px-3 py-1 text-sm font-semibold text-mint-600">
-            <Wallet aria-hidden="true" className="size-4" />
+            <Coins aria-hidden="true" className="size-4" />
             <span className="sr-only">Balance:</span>
-            {status === 'loading' ? <span className="inline-block h-4 w-14 skeleton" /> : formatINR(balance)}
+            {status === 'loading' ? <span className="inline-block h-4 w-14 skeleton" /> : <CoinAmount value={balance} />}
           </p>
           <p className="hidden text-sm text-muted sm:block">{playerLabel(state, state.currentPlayerId)}</p>
           <p className="hidden items-center gap-1 text-xs font-medium text-mint-600 sm:inline-flex">

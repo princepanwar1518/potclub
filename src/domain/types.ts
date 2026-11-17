@@ -1,7 +1,8 @@
 /**
  * Mock domain model. Every figure on every screen is derived from this state
  * (fixes reference defects 3 and 6, where counters and leaderboard disagreed with history).
- * All money values are whole rupees (integers).
+ * All amounts are whole PLAY COINS (integers). Coins have no cash value: they cannot be bought,
+ * sold, withdrawn or exchanged, and nothing in this codebase handles real money.
  */
 export type GroupSize = 5 | 10 | 15 | 20
 export const GROUP_SIZES: readonly GroupSize[] = [5, 10, 15, 20] as const
@@ -40,7 +41,7 @@ export interface Group {
   settledAt: string | null
 }
 
-export type LedgerType = 'deposit' | 'withdrawal' | 'entry' | 'prize' | 'bonus'
+export type LedgerType = 'topup' | 'entry' | 'prize' | 'bonus'
 
 export interface LedgerEntry {
   id: string
@@ -55,8 +56,7 @@ export interface LedgerEntry {
 
 export interface PlatformConfig {
   platformFeePct: number
-  minDeposit: number
-  maxWithdrawal: number
+  minTopUp: number
   maintenance: boolean
 }
 

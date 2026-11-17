@@ -1,4 +1,4 @@
-import { formatINR } from '../lib/format'
+import { formatCoins } from '../lib/format'
 import { GRACE_SECONDS, groupPrize, PICK_SECONDS } from '../domain/rules'
 import type {
   AppNotification,
@@ -141,7 +141,7 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
                 id: action.notificationId,
                 kind: 'win',
                 title: `You won draw #${group.number}!`,
-                body: `Card ${action.winningCard} came up — ${formatINR(prize)} (demo credits) added to your balance.`,
+                body: `Card ${action.winningCard} came up — ${formatCoins(prize)} added to your balance.`,
                 createdAt: action.at,
                 read: false,
               }

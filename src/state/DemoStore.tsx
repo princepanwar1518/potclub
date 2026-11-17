@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react'
-import { activeBlock, availableCards, balanceOf, canJoin, canSpend, DEFAULT_ENTRY_FEE, effectiveLimits, planLimitChange } from '../domain/rules'
+import { activeBlock, availableCards, canJoin, canSpend, DEFAULT_ENTRY_FEE, effectiveLimits, planLimitChange } from '../domain/rules'
 import { createSeedState } from '../domain/seed'
 import type { DemoState, Result } from '../domain/types'
-import { formatINR } from '../lib/format'
+import { formatCoins } from '../lib/format'
 import { playChime } from '../lib/sound'
-import { ClockContext, MAX_DEPOSIT, MAX_WITHDRAWAL_CAP, StoreContext, type DemoActions, type LoadStatus } from './context'
+import { ClockContext, MAX_TOP_UP, StoreContext, type DemoActions, type LoadStatus } from './context'
 import { demoReducer, newGroup } from './reducer'
 import { parsePersistedState } from './validate'
 
@@ -62,7 +62,7 @@ function randomInt(max: number): number {
 const ok: Result = { ok: true, value: undefined }
 const fail = (reason: string): { ok: false; reason: string } => ({ ok: false, reason })
 
-function isWholeRupees(n: number): boolean {
+function isWholeCoins(n: number): boolean {
   return Number.isFinite(n) && Number.isInteger(n) && n > 0
 }
 
@@ -235,32 +235,18 @@ export function DemoProvider({
         return ok
       },
 
-      async deposit(amount) {
+      async addCoins(amount) {
         await wait()
         const s = current()
-        if (!isWholeRupees(amount)) return fail('Enter a whole rupee amount.')
-        if (amount < s.config.minDeposit) return fail(`The minimum deposit is ${formatINR(s.config.minDeposit)}.`)
-        if (amount > MAX_DEPOSIT) return fail(`The maximum single deposit is ${formatINR(MAX_DEPOSIT)}.`)
-        if (s.config.maintenance) return fail('Deposits are paused for maintenance.')
+        if (!isWholeCoins(amount)) return fail('Enter a whole number of coins.')
+        if (amount < s.config.minTopUp) return fail(`The minimum top-up is ${formatCoins(s.config.minTopUp)}.`)
+        if (amount > MAX_TOP_UP) return fail(`The maximum single top-up is ${formatCoins(MAX_TOP_UP)}.`)
+        if (s.config.maintenance) return fail('Top-ups are paused for maintenance.')
         const block = activeBlock(s.safety, Date.now())
-        if (block) return fail(`${block} Deposits are paused until it ends.`)
+        if (block) return fail(`${block} Top-ups are paused until it ends.`)
         dispatch({
           type: 'ledger',
-          entry: { id: uid('l'), playerId: s.currentPlayerId, type: 'deposit', amount, description: 'Demo deposit (play money)', createdAt: at() },
-        })
-        return ok
-      },
-
-      async withdraw(amount) {
-        await wait()
-        const s = current()
-        if (!isWholeRupees(amount)) return fail('Enter a whole rupee amount.')
-        const balance = balanceOf(s.ledger, s.currentPlayerId)
-        if (amount > balance) return fail(`You can withdraw up to ${formatINR(balance)}.`)
-        if (amount > s.config.maxWithdrawal) return fail(`The maximum withdrawal is ${formatINR(s.config.maxWithdrawal)}.`)
-        dispatch({
-          type: 'ledger',
-          entry: { id: uid('l'), playerId: s.currentPlayerId, type: 'withdrawal', amount: -amount, description: 'Demo withdrawal (play money)', createdAt: at() },
+          entry: { id: uid('l'), playerId: s.currentPlayerId, type: 'topup', amount, description: 'Free coin top-up', createdAt: at() },
         })
         return ok
       },
@@ -279,7 +265,7 @@ export function DemoProvider({
       async saveLimits(limits) {
         await wait()
         for (const v of Object.values(limits)) {
-          if (v !== null && !isWholeRupees(v)) return fail('Limits must be whole rupee amounts above ₹0.')
+          if (v !== null && !isWholeCoins(v)) return fail('Limits must be whole numbers of coins above 0.')
         }
         const { hourlySpend, dailySpend } = limits
         if (hourlySpend !== null && dailySpend !== null && hourlySpend > dailySpend) {
@@ -335,13 +321,9 @@ export function DemoProvider({
         if (patch.platformFeePct !== undefined && Math.round(patch.platformFeePct * 100) !== patch.platformFeePct * 100) {
           return fail('Platform fee can have at most two decimal places.')
         }
-        if (patch.minDeposit !== undefined) {
-          if (!isWholeRupees(patch.minDeposit)) return fail('Minimum deposit must be a whole rupee amount.')
-          if (patch.minDeposit > MAX_DEPOSIT) return fail(`Minimum deposit cannot exceed the ${formatINR(MAX_DEPOSIT)} deposit cap.`)
-        }
-        if (patch.maxWithdrawal !== undefined) {
-          if (!isWholeRupees(patch.maxWithdrawal)) return fail('Maximum withdrawal must be a whole rupee amount.')
-          if (patch.maxWithdrawal > MAX_WITHDRAWAL_CAP) return fail(`Maximum withdrawal cannot exceed ${formatINR(MAX_WITHDRAWAL_CAP)}.`)
+        if (patch.minTopUp !== undefined) {
+          if (!isWholeCoins(patch.minTopUp)) return fail('Minimum top-up must be a whole number of coins.')
+          if (patch.minTopUp > MAX_TOP_UP) return fail(`Minimum top-up cannot exceed the ${formatCoins(MAX_TOP_UP)} top-up cap.`)
         }
         dispatch({ type: 'updateConfig', patch })
         return ok

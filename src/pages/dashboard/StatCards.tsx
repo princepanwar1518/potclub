@@ -1,13 +1,15 @@
-import { TrendingUp, Trophy, Users, Wallet, type LucideIcon } from 'lucide-react'
+import { Coins, TrendingUp, Trophy, Users, type LucideIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { CoinAmount } from '../../components/ui/CoinAmount'
 import { Card, IconChip, type Tone } from '../../components/ui/primitives'
 import { playerStats } from '../../domain/rules'
-import { formatINR, formatNumber } from '../../lib/format'
+import { formatNumber } from '../../lib/format'
 import { cn } from '../../lib/cn'
 import { useDemo } from '../../state/context'
 
 interface Stat {
   label: string
-  value: string
+  value: ReactNode
   icon: LucideIcon
   tone: Tone
   valueClass: string
@@ -18,10 +20,10 @@ export function StatCards() {
   const { state, status } = useDemo()
   const s = playerStats(state, state.currentPlayerId)
   const stats: Stat[] = [
-    { label: 'Balance', value: formatINR(s.balance), icon: Wallet, tone: 'mint', valueClass: 'text-mint-600', hint: 'Play money' },
+    { label: 'Balance', value: <CoinAmount value={s.balance} />, icon: Coins, tone: 'mint', valueClass: 'text-mint-600', hint: 'No cash value' },
     { label: 'Wins', value: formatNumber(s.wins), icon: Trophy, tone: 'amber', valueClass: 'text-amber-600', hint: `of ${formatNumber(s.games)} games` },
-    { label: 'Winnings', value: formatINR(s.winnings), icon: TrendingUp, tone: 'mint', valueClass: 'text-mint-600', hint: 'Total prizes' },
-    { label: 'Games', value: formatNumber(s.games), icon: Users, tone: 'lilac', valueClass: 'text-indigo', hint: `${formatINR(s.totalEntries)} in entries` },
+    { label: 'Winnings', value: <CoinAmount value={s.winnings} />, icon: TrendingUp, tone: 'mint', valueClass: 'text-mint-600', hint: 'Total prizes' },
+    { label: 'Games', value: formatNumber(s.games), icon: Users, tone: 'lilac', valueClass: 'text-indigo', hint: `${formatNumber(s.totalEntries)} used` },
   ]
 
   return (
@@ -33,7 +35,7 @@ export function StatCards() {
             {status === 'loading' ? (
               <div className="mt-2 h-8 w-20 skeleton" />
             ) : (
-              <p className={cn('mt-1 truncate font-display text-2xl font-semibold sm:text-3xl', st.valueClass)}>{st.value}</p>
+              <p className={cn('mt-1 font-display text-2xl leading-tight font-semibold break-words sm:text-3xl', st.valueClass)}>{st.value}</p>
             )}
             <p className="mt-0.5 truncate text-xs text-muted">{st.hint}</p>
           </div>

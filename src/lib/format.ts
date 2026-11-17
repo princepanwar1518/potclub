@@ -1,14 +1,7 @@
 /**
- * Single source of truth for number/date formatting (fixes reference defect 8:
- * "₹100,000" vs "₹1,00,000"). Everything uses the en-IN locale and Asia/Kolkata time.
+ * Single source of truth for number/date formatting. Amounts are PLAY COINS with no cash value
+ * (never currency); Indian digit grouping (1,76,000) and Asia/Kolkata time throughout.
  */
-const inrFormatter = new Intl.NumberFormat('en-IN', {
-  style: 'currency',
-  currency: 'INR',
-  maximumFractionDigits: 0,
-  minimumFractionDigits: 0,
-})
-
 const numberFormatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 })
 
 const dateTimeFormatter = new Intl.DateTimeFormat('en-IN', {
@@ -21,19 +14,20 @@ const dateTimeFormatter = new Intl.DateTimeFormat('en-IN', {
   timeZone: 'Asia/Kolkata',
 })
 
-/** ₹1,76,000 — whole rupees, Indian digit grouping. */
-export function formatINR(amount: number): string {
-  return inrFormatter.format(Math.round(amount))
-}
-
-/** +₹55,000 / −₹50,000 for ledger rows (uses a true minus sign). */
-export function formatSignedINR(amount: number): string {
-  if (amount === 0) return formatINR(0)
-  return `${amount > 0 ? '+' : '−'}${formatINR(Math.abs(amount))}`
-}
-
 export function formatNumber(value: number): string {
   return numberFormatter.format(value)
+}
+
+/** "1,76,000 coins" / "1 coin" — whole coins, Indian digit grouping. */
+export function formatCoins(amount: number): string {
+  const n = Math.round(amount)
+  return `${numberFormatter.format(n)} ${Math.abs(n) === 1 ? 'coin' : 'coins'}`
+}
+
+/** "+55,000 coins" / "−50,000 coins" for ledger rows (uses a true minus sign). */
+export function formatSignedCoins(amount: number): string {
+  if (amount === 0) return formatCoins(0)
+  return `${amount > 0 ? '+' : '−'}${formatCoins(Math.abs(amount))}`
 }
 
 /** 13 Nov 2026, 11:39 pm (IST) */

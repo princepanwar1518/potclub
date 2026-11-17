@@ -21,7 +21,7 @@ function withBalance(state: DemoState, amount: number): DemoState {
     ...state,
     ledger: [
       ...state.ledger,
-      { id: 'x', playerId: GUEST_ID, type: 'deposit', amount, description: 'test', createdAt: '2026-11-17T07:00:00Z' },
+      { id: 'x', playerId: GUEST_ID, type: 'topup', amount, description: 'test', createdAt: '2026-11-17T07:00:00Z' },
     ],
   }
 }
@@ -47,7 +47,7 @@ describe('player stats (defect 3)', () => {
       games: 3,
       wins: 0,
       winnings: 0,
-      totalDeposited: 80000,
+      totalToppedUp: 80000,
       totalEntries: 70100,
     })
   })
@@ -58,7 +58,7 @@ describe('join eligibility (defect 4)', () => {
     const s = createSeedState()
     const r = canJoin(s, 'g-1002', NOW)
     expect(r.ok).toBe(false)
-    if (!r.ok) expect(r.reason).toMatch(/insufficient balance — add ₹10,100/i)
+    if (!r.ok) expect(r.reason).toMatch(/not enough coins — you need 10,100 coins more/i)
   })
 
   it('blocks a second entry into the same group', () => {

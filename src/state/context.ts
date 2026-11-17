@@ -1,9 +1,8 @@
 import { createContext, useContext } from 'react'
 import type { DemoState, GroupSize, PlayLimits, Result } from '../domain/types'
 
-export const MAX_DEPOSIT = 100000
-/** Upper bound an admin may set for the per-withdrawal limit. */
-export const MAX_WITHDRAWAL_CAP = 10000000
+/** Largest single free top-up. */
+export const MAX_TOP_UP = 100000
 
 export type LoadStatus = 'loading' | 'ready'
 
@@ -12,8 +11,8 @@ export interface DemoActions {
   quickPlay(size: GroupSize): Promise<Result<string>>
   pickCard(groupId: string, card: number): Promise<Result>
   revealNow(groupId: string): Promise<Result>
-  deposit(amount: number): Promise<Result>
-  withdraw(amount: number): Promise<Result>
+  /** Free play-coin top-up. Coins have no cash value; nothing is charged. */
+  addCoins(amount: number): Promise<Result>
   applyReferral(code: string): Promise<Result>
   saveLimits(limits: PlayLimits): Promise<Result>
   takeTimeout(hours: number): Promise<Result>

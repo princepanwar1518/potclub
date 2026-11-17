@@ -4,7 +4,8 @@ import { Button } from '../../components/ui/Button'
 import { EmptyState, Notice } from '../../components/ui/Notice'
 import { Badge, Card } from '../../components/ui/primitives'
 import { drawHistory, groupPrize, leaderboard, playerLabel } from '../../domain/rules'
-import { formatDateTime, formatINR, formatNumber } from '../../lib/format'
+import { CoinAmount } from '../../components/ui/CoinAmount'
+import { formatDateTime, formatNumber } from '../../lib/format'
 import { cn } from '../../lib/cn'
 import { useAsyncAction } from '../../lib/useAsyncAction'
 import { useDemo } from '../../state/context'
@@ -44,7 +45,7 @@ export function HistoryTab() {
                 <p className="text-xs text-muted">Winner</p>
                 <p className={cn('text-sm font-semibold', iWon ? 'text-amber-600' : 'text-heading')}>{iWon ? 'You' : playerLabel(state, g.winnerId)}</p>
               </div>
-              <p className="w-24 text-right font-display text-lg font-semibold text-mint-600">{formatINR(groupPrize(g))}</p>
+              <p className="w-28 text-right font-display text-lg font-semibold text-mint-600"><CoinAmount value={groupPrize(g)} /></p>
             </li>
           )
         })}
@@ -88,7 +89,7 @@ export function LeaderboardTab() {
                   {r.player.label} {isMe ? <Badge tone="lilac">You</Badge> : null}
                 </th>
                 <td className="px-3 py-3 text-right tabular-nums">{formatNumber(r.wins)}</td>
-                <td className="px-3 py-3 text-right font-semibold text-mint-600 tabular-nums">{formatINR(r.winnings)}</td>
+                <td className="px-3 py-3 text-right font-semibold text-mint-600 tabular-nums"><CoinAmount value={r.winnings} /></td>
               </tr>
             )
           })}

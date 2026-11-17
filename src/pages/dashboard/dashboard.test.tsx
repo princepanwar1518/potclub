@@ -19,7 +19,7 @@ async function stat(label: RegExp) {
 describe('dashboard', () => {
   it('shows stats derived from the ledger (defect 3)', async () => {
     renderAt('/dashboard')
-    expect(within(await stat(/balance/i)).getByText('₹9,900')).toBeInTheDocument()
+    expect(within(await stat(/balance/i)).getByText('9,900')).toBeInTheDocument()
     expect(within(await stat(/^games$/i)).getByText('3')).toBeInTheDocument()
     expect(within(await stat(/^wins$/i)).getByText('0')).toBeInTheDocument()
   })
@@ -27,22 +27,22 @@ describe('dashboard', () => {
   it('shows fee-adjusted prize pools and disables unaffordable joins (defects 2 & 4)', async () => {
     renderAt('/dashboard')
     const card = (await screen.findByRole('heading', { name: /10-player group #1002/i })).closest('div.rounded-card') as HTMLElement
-    expect(within(card).getByText('₹1,76,000')).toBeInTheDocument()
-    expect(within(card).getByText(/₹2,00,000 collected − ₹24,000 \(12% fee\)/)).toBeInTheDocument()
+    expect(within(card).getByText('1,76,000')).toBeInTheDocument()
+    expect(within(card).getByText(/2,00,000 collected − 24,000 \(12% fee\)/)).toBeInTheDocument()
     const join = within(card).getByRole('button', { name: /join group/i })
     expect(join).toBeDisabled()
-    expect(join).toHaveAccessibleDescription(/insufficient balance — add ₹10,100 to join/i)
+    expect(join).toHaveAccessibleDescription(/not enough coins — you need 10,100 coins more to join/i)
     // Already-joined group shows a waiting state instead of a join button
     const mine = (await screen.findByRole('heading', { name: /10-player group #1001/i })).closest('div.rounded-card') as HTMLElement
     expect(within(mine).getByRole('button', { name: /waiting for players/i })).toBeDisabled()
   })
 
-  it('quick play joins a 5-player group and debits ₹100', async () => {
+  it('quick play joins a 5-player group and uses 100 coins', async () => {
     const user = userEvent.setup()
     renderAt('/dashboard')
     await user.click(await screen.findByRole('button', { name: /^5P/ }))
     expect(await screen.findByText(/you're in a 5-player group/i)).toBeInTheDocument()
-    expect(within(await stat(/balance/i)).getByText('₹9,800')).toBeInTheDocument()
+    expect(within(await stat(/balance/i)).getByText('9,800')).toBeInTheDocument()
     expect(within(await stat(/^games$/i)).getByText('4')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /your groups/i })).toBeInTheDocument()
   })
@@ -56,9 +56,9 @@ describe('dashboard', () => {
     await user.click(screen.getByRole('tab', { name: /leaderboard/i }))
     const rows = within(await screen.findByRole('table')).getAllByRole('row').slice(1)
     expect(rows.map((r) => within(r).getAllByRole('cell').map((c) => c.textContent))).toEqual([
-      ['#1', '2', '₹88,000'],
-      ['#2', '2', '₹880'],
-      ['#3', '1', '₹440'],
+      ['#1', '2', '88,000 coins'],
+      ['#2', '2', '880 coins'],
+      ['#3', '1', '440 coins'],
     ])
   })
 
@@ -75,30 +75,20 @@ describe('dashboard', () => {
     expect(screen.getByRole('tab', { name: /alerts/i })).toHaveAttribute('aria-selected', 'true')
   })
 
-  it('validates deposits against the ₹200 minimum and records valid ones', async () => {
+  it('validates free top-ups against the 200-coin minimum and records valid ones', async () => {
     const user = userEvent.setup()
     renderAt('/dashboard?tab=wallet')
     const inputs = await screen.findAllByRole('textbox', { name: /amount/i })
     const depositForm = inputs[0]!.closest('form') as HTMLElement
     await user.type(within(depositForm).getByRole('textbox'), '150')
-    await user.click(within(depositForm).getByRole('button', { name: /^deposit$/i }))
-    expect(await screen.findByText(/the minimum deposit is ₹200/i)).toBeInTheDocument()
+    await user.click(within(depositForm).getByRole('button', { name: /^add coins$/i }))
+    expect(await screen.findByText(/the minimum top-up is 200 coins/i)).toBeInTheDocument()
 
     await user.clear(within(depositForm).getByRole('textbox'))
-    await user.click(within(depositForm).getByRole('button', { name: '₹5,000' }))
-    await user.click(within(depositForm).getByRole('button', { name: /^deposit$/i }))
-    expect(await screen.findByText(/deposit of ₹5,000 completed \(play money\)/i)).toBeInTheDocument()
-    expect(within(await stat(/balance/i)).getByText('₹14,900')).toBeInTheDocument()
-  })
-
-  it('blocks withdrawals above the balance', async () => {
-    const user = userEvent.setup()
-    renderAt('/dashboard?tab=wallet')
-    const forms = await screen.findAllByRole('textbox', { name: /amount/i })
-    const withdrawForm = forms[1]!.closest('form') as HTMLElement
-    await user.type(within(withdrawForm).getByRole('textbox'), '20000')
-    await user.click(within(withdrawForm).getByRole('button', { name: /^withdraw$/i }))
-    expect(await screen.findByText(/you can withdraw up to ₹9,900/i)).toBeInTheDocument()
+    await user.click(within(depositForm).getByRole('button', { name: '5,000' }))
+    await user.click(within(depositForm).getByRole('button', { name: /^add coins$/i }))
+    expect(await screen.findByText(/5,000 coins added to your balance/i)).toBeInTheDocument()
+    expect(within(await stat(/balance/i)).getByText('14,900')).toBeInTheDocument()
   })
 
   it('enforces safety limits on joins and rejects inconsistent limits', async () => {
@@ -130,8 +120,8 @@ describe('dashboard', () => {
     await user.click(screen.getByRole('tab', { name: /available groups/i }))
     await user.click(await screen.findByRole('button', { name: /^5P/ }))
     // Shown in the quick-play error and on every group card's disabled join reason
-    expect((await screen.findAllByText(/time-out from paid groups/i)).length).toBeGreaterThanOrEqual(2)
-    expect(screen.getByRole('alert')).toHaveTextContent(/time-out from paid groups/i)
+    expect((await screen.findAllByText(/time-out from joining groups/i)).length).toBeGreaterThanOrEqual(2)
+    expect(screen.getByRole('alert')).toHaveTextContent(/time-out from joining groups/i)
   })
 
   it('does not show an admin link to guests', async () => {
@@ -150,14 +140,15 @@ describe('admin', () => {
 
     await user.click(screen.getByRole('button', { name: /preview as admin \(dev only\)/i }))
     const summary = await screen.findByRole('region', { name: /platform summary/i })
-    expect(within(summary).getByText('₹12,180')).toBeInTheDocument()
+    expect(within(summary).getByText('12,180 coins')).toBeInTheDocument()
     expect(within(summary).getByText('5')).toBeInTheDocument()
 
     await user.type(screen.getByLabelText(/platform fee/i), '45')
     await user.click(within(screen.getByLabelText(/platform fee/i).closest('form') as HTMLElement).getByRole('button', { name: /update/i }))
     expect(await screen.findByText(/between 0% and 30%/i)).toBeInTheDocument()
 
-    expect(screen.getByText('₹1,00,000')).toBeInTheDocument() // en-IN formatting (defect 8)
+    expect(screen.getByText('200 coins')).toBeInTheDocument() // en-IN grouping, coins not currency
+    expect(screen.queryByText(/withdrawal/i)).not.toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /enable maintenance/i }))
     await user.click(screen.getByRole('button', { name: /^confirm$/i }))
@@ -169,7 +160,7 @@ describe('admin', () => {
 })
 
 describe('audit regressions', () => {
-  it('blocks deposits during a time-out (A-4)', async () => {
+  it('blocks coin top-ups during a time-out (A-4)', async () => {
     const user = userEvent.setup()
     renderAt('/dashboard?tab=safety')
     const timeoutCard = (await screen.findByRole('heading', { name: /take a time-out/i })).closest('div.rounded-card') as HTMLElement
@@ -179,9 +170,9 @@ describe('audit regressions', () => {
     await user.click(screen.getByRole('tab', { name: /wallet/i }))
     const depositForm = (await screen.findAllByRole('textbox', { name: /amount/i }))[0]!.closest('form') as HTMLElement
     await user.type(within(depositForm).getByRole('textbox'), '500')
-    await user.click(within(depositForm).getByRole('button', { name: /^deposit$/i }))
-    expect(await screen.findByText(/deposits are paused until it ends/i)).toBeInTheDocument()
-    expect(within(await stat(/balance/i)).getByText('₹9,900')).toBeInTheDocument()
+    await user.click(within(depositForm).getByRole('button', { name: /^add coins$/i }))
+    expect(await screen.findByText(/top-ups are paused until it ends/i)).toBeInTheDocument()
+    expect(within(await stat(/balance/i)).getByText('9,900')).toBeInTheDocument()
   })
 
   it('shows a pending notice when a limit is raised (A-5)', async () => {
@@ -194,17 +185,17 @@ describe('audit regressions', () => {
     await user.clear(daily)
     await user.type(daily, '90000')
     await user.click(screen.getByRole('button', { name: /save limits/i }))
-    expect(await screen.findByText(/pending: daily spend → ₹90,000/i)).toBeInTheDocument()
-    expect(screen.getByText(/current ₹1,000/i)).toBeInTheDocument()
+    expect(await screen.findByText(/pending: daily spend → 90,000 coins/i)).toBeInTheDocument()
+    expect(screen.getByText(/current 1,000 coins/i)).toBeInTheDocument()
   })
 
-  it('rejects an admin minimum deposit above the deposit cap (A-6)', async () => {
+  it('rejects an admin minimum top-up above the top-up cap (A-6)', async () => {
     const user = userEvent.setup()
     renderAt('/admin')
     await user.click(await screen.findByRole('button', { name: /preview as admin \(dev only\)/i }))
-    const input = await screen.findByLabelText(/minimum deposit/i)
+    const input = await screen.findByLabelText(/minimum top-up/i)
     await user.type(input, '200000')
     await user.click(within(input.closest('form') as HTMLElement).getByRole('button', { name: /update/i }))
-    expect(await screen.findByText(/cannot exceed the ₹1,00,000 deposit cap/i)).toBeInTheDocument()
+    expect(await screen.findByText(/cannot exceed the 1,00,000 coins top-up cap/i)).toBeInTheDocument()
   })
 })
