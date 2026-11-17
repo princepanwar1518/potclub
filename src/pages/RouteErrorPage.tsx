@@ -8,7 +8,7 @@ export function RouteErrorPage() {
     : 'Something went wrong while loading this page.'
 
   return (
-    <main role="alert" className="mx-auto flex min-h-dvh max-w-xl flex-col items-start justify-center gap-4 px-6">
+    <main id="main" role="alert" className="mx-auto flex min-h-dvh max-w-xl flex-col items-start justify-center gap-4 px-6">
       <h1 className="text-3xl font-semibold">Something went wrong</h1>
       <p className="text-slate-600">{message}</p>
       <div className="flex gap-4">

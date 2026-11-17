@@ -11,16 +11,32 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - [x] 4. Landing: hero + live-groups card (with loading skeleton, fixes defect 7)
 - [x] 5. Landing: how-it-works 4 steps, 3 feature cards, CTA band
 - [x] 6. Mock data layer (typed, in-memory, deterministic): groups, draws, ledger, leaderboard derived from draws; prize = fee×size×(1−fee%) (fixes 2, 6)
-- [ ] 7. Dashboard: header chips, 4 stat cards (games count derived from ledger, fixes 3), accessible tabs
-- [ ] 8. Available Groups tab + Quick Play filter; Join disabled with reason when balance < fee (fixes 4)
-- [ ] 9. Draw History (sorted newest first, fixes 5), Leaderboard (fixes 6), Alerts tab
-- [ ] 10. Wallet tab: ledger, deposit (min ₹200 validation, fixes 9), withdraw (≤ balance & max), referral — demo only, no real payments
-- [ ] 11. Play Safely tab: limits/time-out/self-exclusion with validation, enforced in mock join
-- [ ] 12. Admin route: NOT linked for players; guarded behind role check (fixes 1); consistent en-IN formatting (fixes 8)
-- [ ] 13. SEO/a11y: meta description, OG tags, headings, focus states, reduced motion, keyboard tabs (fixes 10)
-- [ ] 14. Responsive pass at 360/390/768/1024/1440; no horizontal overflow
-- [ ] 15. Tests (Vitest + Testing Library) for data rules + key UI; Lighthouse/axe check; production build + preview smoke test
-- [ ] 16. Final report
+- [x] 7. Dashboard: header chips, 4 stat cards (games count derived from ledger, fixes 3), accessible tabs
+- [x] 8. Available Groups tab + Quick Play filter; Join disabled with reason when balance < fee (fixes 4)
+- [x] 9. Draw History (sorted newest first, fixes 5), Leaderboard (fixes 6), Alerts tab
+- [x] 10. Wallet tab: ledger, deposit (min ₹200 validation, fixes 9), withdraw (≤ balance & max), referral — demo only, no real payments
+- [x] 11. Play Safely tab: limits/time-out/self-exclusion with validation, enforced in mock join
+- [x] 12. Admin route: NOT linked for players; guarded behind role check (fixes 1); consistent en-IN formatting (fixes 8)
+- [x] 13. SEO/a11y: meta description, OG tags, headings, focus states, reduced motion, keyboard tabs (fixes 10)
+- [x] 14. Responsive pass at 360/390/768/1024/1440; no horizontal overflow
+- [x] 15. Tests (Vitest + Testing Library) for data rules + key UI; Lighthouse/axe check; production build + preview smoke test
+- [x] 16. Final report
+
+## Verification log (2026-11-17)
+- `npm run check`: oxlint 0 warnings, tsc strict 0 errors, **41/41 tests**, build OK (main JS 337.12 kB / 107.19 kB gzip, CSS 44.09 kB / 8.82 kB gzip).
+- Real Chrome (Playwright, `scripts/shoot.py`): 9 routes/tabs × 4 viewports (390/768/1280/1512) = 36 checks, 0 horizontal overflow, 0 console errors/warnings.
+- axe-core (wcag2a/aa + best-practice) at 390 and 1280 on all 9 views: 0 violations after fixes (mint-600 → #116b4b, lilac-600 → #5643d4, focusable table scrollers).
+- Landing height 1,894 px at 1512 vs reference 1,938 px (−2.3%).
+- Throttled mobile (150 ms RTT, 1.6 Mbps, 4× CPU): FCP 1,384 ms, LCP 1,472 ms, CLS 0.000, 193 kB transferred in 10 requests. Lighthouse itself not installed — metrics measured via Performance API.
+- End-to-end draw in Chrome: joined → picked card → grace → reveal → balance ₹9,900 + ₹1,76,000 = ₹1,85,900, wins 1, history/alerts updated, 0 console errors.
+- Production bundle grep: dev-only "Preview as admin" string absent from dist.
+
+## Backend requirements (cannot be met by a frontend-only demo)
+- Real authentication (sessions/JWT), server-side role checks on every admin endpoint, MFA + audit log for admins; serve admin code only to admins.
+- Server-authoritative ledger (double-entry, idempotent transactions), group joins with row locking, and draws using a server CSPRNG with an auditable record (commit–reveal or signed results).
+- Server enforcement of spend/loss limits, time-outs, self-exclusion, age (18+) and KYC; these checks currently run only in the mock store.
+- Payment gateway, withdrawals and tax handling — and a legal opinion first: real-money online games/lotteries are restricted in India (Promotion and Regulation of Online Gaming Act, 2025).
+- Host config: return HTTP 404 for unknown routes, security headers (CSP, HSTS, X-Frame-Options), canonical URL + og:image once a domain and branding exist.
 
 ## Blocked / needs user
 - Branding (name, logo) — user will supply later; keep placeholder slot neutral.
@@ -28,6 +44,12 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - Reference mobile layout could not be captured (browser resize had no effect) — design mobile from desktop rules.
 
 ## Notes
+- Architecture: `src/domain` (types, pure rules, seed — all money maths), `src/state` (reducer, DemoProvider = mock server + draw engine + simulated players, context hooks), `src/components/{ui,layout}`, `src/pages/{landing,dashboard}`, `src/config/brand.ts` (set name/logo here).
+- Dashboard tab is in the URL (`?tab=history|wallet|safety|leaderboard|alerts`).
+- Admin: `state.role` is never persisted; guests see "Administrator access required". Dev builds show a "Preview as admin (dev only)" button; production builds strip it.
+- Simulated bots only fill the first open group the player is in (1 per 1.5 s) and pick cards 1 per 1.5 s; draws settle at grace end or via "reveal now".
+- Visual QA needs Python Playwright + /usr/bin/google-chrome: `python3 scripts/shoot.py http://localhost:4173 /tmp/shots / /dashboard`. axe was run with `npm i --no-save axe-core` (not a project dependency).
+- Admin "Total players" is 44 (unique players in seed), not the reference's 215 — the reference number could not be derived from visible data.
 - Commands: `npm run dev` (5173), `npm run lint` (oxlint), `npm run typecheck` (tsc -b), `npm test` (vitest run), `npm run build`, `npm run check` (all four), `npx vite preview` (4173).
 - Linter is **oxlint** (what the current Vite template ships), not ESLint — keeps lint < 1s. Config: `.oxlintrc.json`.
 - Strict flags on: strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes, noImplicitReturns, noPropertyAccessFromIndexSignature. Optional props must be typed `x?: T | undefined` if assigned undefined.
