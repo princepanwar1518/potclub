@@ -31,6 +31,22 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - End-to-end draw in Chrome: joined → picked card → grace → reveal → balance ₹9,900 + ₹1,76,000 = ₹1,85,900, wins 1, history/alerts updated, 0 console errors.
 - Production bundle grep: dev-only "Preview as admin" string absent from dist.
 
+## Production-readiness audit (2026-11-17, in progress)
+Verified fixed (commits 97fc831, ade0bfd; 59 tests passing):
+- [x] A-1 High: unknown routes returned HTTP 200 → vercel.json rewrites only /, /dashboard, /admin; 404.html is served with a 404 status. Preview matches (curl: /nope 404, missing asset 404).
+- [x] A-2 High: tampered/corrupt localStorage (e.g. `{"version":1,"groups":[{}]}`) bricked the app, even after "Try again" → structural validation; bad data is discarded (checked in Chrome).
+- [x] A-3 Medium: no security headers → strict CSP (no unsafe-inline/eval), HSTS, nosniff, frame DENY, referrer/permissions/COOP. 0 CSP violations across 6 routes in Chrome.
+- [x] A-4 Medium: deposits allowed during time-out/self-exclusion → blocked.
+- [x] A-5 Medium: limits could be raised/removed instantly → 24h cooling-off; lowering applies at once.
+- [x] A-6 Low: admin could set min deposit above the ₹1,00,000 deposit cap → bounded; max withdrawal ≤ ₹1,00,00,000; fee ≤ 2 decimals.
+- [x] A-7 Low: flaky test (robots meta set after paint) → layout effect; 8/8 reruns pass.
+- [x] A-8 Low: no immutable caching for hashed assets → added; HTML no-cache.
+Accepted / not fixable on the frontend:
+- A-9 Critical for production: all balances, roles and results live in the browser. Forging a ₹10,00,00,00,09,900 balance via DevTools was accepted (shown in Chrome). Forging role=admin was NOT accepted. Only a server fixes this.
+- A-10: `npm audit` reports 6 high (picomatch ReDoS) in dev-only tooling (vite/vitest); `npm audit --omit=dev` = 0. No upstream fix yet; build-time only.
+- Secret scan: no keys, tokens or .env files tracked; .env* now ignored.
+Not started yet: backend foundation (auth, RBAC, audit log, read-only game data), .env.example, deployment and rollback docs.
+
 ## Backend requirements (cannot be met by a frontend-only demo)
 - Real authentication (sessions/JWT), server-side role checks on every admin endpoint, MFA + audit log for admins; serve admin code only to admins.
 - Server-authoritative ledger (double-entry, idempotent transactions), group joins with row locking, and draws using a server CSPRNG with an auditable record (commit–reveal or signed results).
