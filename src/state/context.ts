@@ -1,8 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { DemoState, GroupSize, PlayLimits, Result } from '../domain/types'
 
-/** Largest single free top-up. */
-export const MAX_TOP_UP = 100000
+export { MAX_TOP_UP } from '../domain/rules'
 
 export type LoadStatus = 'loading' | 'ready'
 

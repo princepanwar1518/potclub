@@ -6,6 +6,8 @@ export const DEFAULT_ENTRY_FEE: Record<GroupSize, number> = { 5: 100, 10: 20000,
 
 export const PICK_SECONDS = 120
 export const GRACE_SECONDS = 30
+/** Largest single free coin top-up. */
+export const MAX_TOP_UP = 100000
 /** Loosening or removing a limit only takes effect after this cooling-off period. */
 export const LIMIT_COOLING_OFF_HOURS = 24
 
