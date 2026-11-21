@@ -22,7 +22,7 @@ export function HistoryTab() {
   return (
     <Card className="p-2 sm:p-3">
       <h3 className="px-3 pt-3 pb-2 text-lg">Recent draw results</h3>
-      <ul className="divide-y divide-line-soft">
+      <ul className="divide-y divide-ink/30">
         {draws.map((g) => {
           const iWon = g.winnerId === me
           const iPlayed = g.playerIds.includes(me)
@@ -75,7 +75,7 @@ export function LeaderboardTab() {
             <th scope="col" className="px-3 py-2 text-right font-semibold">Winnings</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-line-soft">
+        <tbody className="divide-y divide-ink/30">
           {rows.map((r) => {
             const isMe = r.player.id === state.currentPlayerId
             return (

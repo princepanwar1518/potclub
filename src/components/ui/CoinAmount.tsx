@@ -10,7 +10,7 @@ export function CoinAmount({ value, className, unitClassName }: { value: number;
   return (
     <span className={className}>
       <span className="whitespace-nowrap">{formatNumber(n)}</span>{' '}
-      <span className={cn('align-baseline text-[0.55em] font-medium opacity-80', unitClassName)}>{Math.abs(n) === 1 ? 'coin' : 'coins'}</span>
+      <span className={cn('align-baseline text-[0.55em] font-bold', unitClassName)}>{Math.abs(n) === 1 ? 'coin' : 'coins'}</span>
     </span>
   )
 }

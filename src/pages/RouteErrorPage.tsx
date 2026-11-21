@@ -15,11 +15,11 @@ export function RouteErrorPage() {
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="rounded-btn border border-cp-green bg-cp-green px-4 py-2 font-bold text-black uppercase"
+          className="rounded-btn border-2 border-ink bg-accent px-4 py-2 font-bold text-black uppercase"
         >
           Try again
         </button>
-        <Link to="/" className="self-center font-medium text-cp-cyan underline underline-offset-4">
+        <Link to="/" className="self-center font-medium text-info-ink underline underline-offset-4">
           Back to home
         </Link>
       </div>

@@ -2,6 +2,7 @@ import { Clock, LoaderCircle, PartyPopper, Trophy } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Notice } from '../../components/ui/Notice'
 import { Badge, Card } from '../../components/ui/primitives'
+import { WindowBar } from '../../components/ui/WindowBar'
 import { availableCards, groupPrize, playerLabel } from '../../domain/rules'
 import type { Group } from '../../domain/types'
 import { formatCountdown, formatCoins } from '../../lib/format'
@@ -24,13 +25,12 @@ function DrawRoom({ group }: { group: Group }) {
   const isGrace = group.status === 'grace'
 
   return (
-    <Card className="p-5 sm:p-6">
+    <Card className="overflow-hidden">
+      <WindowBar tone={isGrace ? 'warn' : 'accent'} title={isGrace ? 'Last look before the reveal' : 'Pick your lucky number'} />
+      <div className="p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold tracking-[0.14em] text-indigo uppercase">
-            {isGrace ? 'Last look before the reveal' : 'Pick your lucky number'}
-          </p>
-          <h3 className="mt-1 text-xl">
+          <h3 className="text-xl">
             {group.size}-Player Group #{group.number} · prize {formatCoins(groupPrize(group))}
           </h3>
           <p className="mt-1 text-sm text-muted">
@@ -40,7 +40,7 @@ function DrawRoom({ group }: { group: Group }) {
           </p>
         </div>
         <p
-          className="inline-flex items-center gap-1.5 rounded-btn border border-cp-yellow/50 bg-amber-50 px-3 py-1 font-display text-lg font-semibold text-amber-600 tabular-nums"
+          className="inline-flex items-center gap-1.5 rounded-btn border-2 border-ink bg-warn px-3 py-1 font-display text-lg font-bold text-ink tabular-nums shadow-[3px_3px_0_#141414]"
           aria-live="off"
         >
           <Clock aria-hidden="true" className="size-4" />
@@ -62,10 +62,10 @@ function DrawRoom({ group }: { group: Group }) {
               aria-label={`Card ${card}${mine ? ', your card' : taken ? ', taken' : ''}`}
               onClick={() => void pick.run(() => actions.pickCard(group.id, card), `Card ${card} is yours.`)}
               className={cn(
-                'aspect-[3/4] rounded-btn border font-display text-lg font-semibold transition',
-                mine && 'border-cp-green bg-cp-green text-black shadow-btn',
-                !mine && taken && 'cursor-not-allowed border-line-soft bg-lilac-50/60 text-muted/50 line-through',
-                !mine && !taken && 'border-line-soft bg-surface-2 text-heading hover:-translate-y-0.5 hover:border-indigo/40 hover:shadow-card',
+                'aspect-[3/4] rounded-btn border-2 font-display text-xl font-bold transition',
+                mine && 'border-ink bg-accent text-ink shadow-btn',
+                !mine && taken && 'cursor-not-allowed border-ink/40 bg-lilac-50 text-ink/45 line-through',
+                !mine && !taken && 'press border-ink bg-surface-2 text-ink shadow-[3px_3px_0_#141414]',
               )}
             >
               {card}
@@ -85,6 +85,7 @@ function DrawRoom({ group }: { group: Group }) {
       </div>
       {pick.state.status === 'error' ? <Notice tone="error" className="mt-3">{pick.state.message}</Notice> : null}
       {reveal.state.status === 'error' ? <Notice tone="error" className="mt-3">{reveal.state.message}</Notice> : null}
+      </div>
     </Card>
   )
 }
@@ -93,7 +94,7 @@ function ResultCard({ group }: { group: Group }) {
   const { state } = useDemo()
   const won = group.winnerId === state.currentPlayerId
   return (
-    <Card className={cn('p-5 sm:p-6 motion-safe:animate-fade-up', won && 'border-cp-yellow/60 bg-cp-yellow/5 shadow-[0_0_30px_rgb(255_215_0/0.25)]')}>
+    <Card className={cn('p-5 sm:p-6 motion-safe:animate-fade-up', won && 'border-ink bg-warn/20')}>
       <div className="flex items-center gap-4">
         <span
           aria-hidden="true"
@@ -146,7 +147,7 @@ export function MyGroups() {
       {waiting.length > 0 ? (
         <ul className="flex flex-wrap gap-2">
           {waiting.map((g) => (
-            <li key={g.id} className="rounded-btn border border-line-soft bg-surface/80 px-3 py-1.5 text-sm text-muted">
+            <li key={g.id} className="rounded-btn border-2 border-ink bg-surface px-3 py-1.5 text-sm text-ink shadow-[3px_3px_0_#141414]">
               <span className="font-semibold text-heading">#{g.number}</span> · {g.size}-player · waiting {g.playerIds.length}/{g.size}
             </li>
           ))}

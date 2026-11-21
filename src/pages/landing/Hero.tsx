@@ -6,7 +6,8 @@ import { formatNumber } from '../../lib/format'
 import { useDemo } from '../../state/context'
 import { ButtonLink } from '../../components/ui/Button'
 import { buttonClasses } from '../../components/ui/buttonClasses'
-import { Container, Eyebrow, IconChip } from '../../components/ui/primitives'
+import { Container, IconChip } from '../../components/ui/primitives'
+import { WindowBar } from '../../components/ui/WindowBar'
 
 function LiveGroupsCard() {
   const { state, status } = useDemo()
@@ -18,21 +19,19 @@ function LiveGroupsCard() {
 
   return (
     <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto">
-      <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-panel bg-[radial-gradient(closest-side,rgb(0_255_0/0.16),transparent)]" />
       <section
         aria-labelledby="live-groups-title"
         aria-busy={loading}
-        className="rounded-panel border border-line bg-surface/90 p-6 shadow-float backdrop-blur motion-safe:animate-float"
+        className="overflow-hidden rounded-panel border-[3px] border-ink bg-surface shadow-float motion-safe:animate-float"
       >
+        <WindowBar tone="violet" title={<span id="live-groups-title">Live groups</span>} />
+        <div className="p-5 sm:p-6">
         <div className="flex items-start justify-between">
           <div>
-            <Eyebrow className="text-muted">
-              <span id="live-groups-title">Live groups</span>
-            </Eyebrow>
             {loading ? (
               <div className="mt-3 h-10 w-28 skeleton" />
             ) : (
-              <p className="mt-1 font-display text-5xl font-semibold text-heading">
+              <p className="font-display text-5xl font-bold text-ink">
                 {formatNumber(open.length)} <span className="text-lg text-muted">open</span>
               </p>
             )}
@@ -46,15 +45,15 @@ function LiveGroupsCard() {
         </div>
 
         <dl className="mt-5 grid grid-cols-2 gap-3">
-          <div className="rounded-card border border-line-soft bg-surface-2 p-3.5">
-            <dt className="text-xs text-muted">Prize pools</dt>
-            <dd className="mt-1 font-display text-xl font-semibold text-mint-600">
+          <div className="rounded-card border-2 border-ink bg-surface-2 p-3.5">
+            <dt className="text-xs font-bold text-muted">Prize pools</dt>
+            <dd className="mt-1 font-display text-xl font-bold text-mint-600">
               {loading ? <span className="block h-6 w-24 skeleton" /> : <CoinAmount value={pools} />}
             </dd>
           </div>
-          <div className="rounded-card border border-line-soft bg-surface-2 p-3.5">
-            <dt className="text-xs text-muted">Group sizes</dt>
-            <dd className="mt-1 font-display text-xl font-semibold text-indigo">
+          <div className="rounded-card border-2 border-ink bg-surface-2 p-3.5">
+            <dt className="text-xs font-bold text-muted">Group sizes</dt>
+            <dd className="mt-1 font-display text-xl font-bold text-violet">
               {minSize}–{maxSize}
             </dd>
           </div>
@@ -64,8 +63,9 @@ function LiveGroupsCard() {
         <ButtonLink to="/dashboard" variant="mint" className="mt-4 w-full">
           Explore open groups <ArrowRight aria-hidden="true" className="size-4" />
         </ButtonLink>
+        </div>
       </section>
-      <p className="mt-4 text-center text-xs text-muted">Your guest player space is ready.</p>
+      <p className="mt-5 text-center text-xs font-bold text-ink">Your guest player space is ready.</p>
     </div>
   )
 }
@@ -75,12 +75,12 @@ export function Hero() {
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       <Container className="grid items-center gap-12 py-14 sm:py-20 lg:min-h-[600px] lg:grid-cols-[1.3fr_1fr] lg:py-16">
         <div className="motion-safe:animate-fade-up">
-          <p className="inline-flex items-center gap-1.5 rounded-btn border border-cp-yellow/50 bg-cp-yellow/10 px-3 py-1 text-xs font-bold tracking-wider text-cp-yellow uppercase">
+          <p className="inline-flex items-center gap-1.5 rounded-btn border-2 border-ink bg-warn px-3 py-1 font-display text-sm font-bold text-ink shadow-[3px_3px_0_#141414]">
             <Zap aria-hidden="true" className="size-3.5" /> Instant groups. Live surprises.
           </p>
-          <h1 id="hero-title" className="glitch mt-5 text-[2.6rem] leading-[1.02] tracking-tight sm:text-6xl lg:text-[64px]">
+          <h1 id="hero-title" className="mt-5 text-[2.6rem] leading-[1.02] tracking-tight sm:text-6xl lg:text-[64px]">
             Pick a number.
-            <span className="glitch-once block text-gradient pb-1 lg:whitespace-nowrap">Enjoy the moment.</span>
+            <span className="block text-gradient pb-1 lg:whitespace-nowrap">Enjoy the moment.</span>
           </h1>
           <p className="mt-5 max-w-md text-base text-muted sm:text-lg">
             Join a friendly group, choose your lucky card, and share the excitement as the live draw unfolds when the

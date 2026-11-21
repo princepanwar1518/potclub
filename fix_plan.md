@@ -31,7 +31,16 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - End-to-end draw in Chrome: joined → picked card → grace → reveal → balance ₹9,900 + ₹1,76,000 = ₹1,85,900, wins 1, history/alerts updated, 0 console errors.
 - Production bundle grep: dev-only "Preview as admin" string absent from dist.
 
-## Cyberpunk theme (2026-11-21)
+## Retro desktop theme (2026-11-21) — CURRENT
+User supplied a retro OS UI illustration (uploads: retro-user-interface-screens-collection.zip; stock vector — style only, no artwork copied)
+and asked to use that UI. Replaces the cyberpunk theme below.
+- [x] Components now use ROLE tokens (accent, info, warn, danger, bar, surface, ink) instead of colour names; restyling = edit src/index.css.
+- [x] Teal grid wallpaper, lavender windows with 3px black outlines and hard offset shadows, WindowBar title bars
+      (hero live-groups, CTA, draw room), pixel headings (Pixelify Sans) + Space Mono body, press-down buttons.
+- [x] Verified: 86 tests; axe 0 violations on 9 views x 2 widths + connect dialog (fixed: coin unit at 80% opacity was 4.37:1).
+- Rule: only near-black text directly on the teal page; bright colours are fills with ink text.
+
+## Cyberpunk theme (2026-11-21) — superseded by the retro desktop theme
 User asked for the Cyberpunk UI style (dark, neon, terminal) — this REPLACES the original "light mode only" rule.
 - [x] Tokens remapped in src/index.css (names kept; mapping documented there), JetBrains Mono self-hosted (Fredoka/DM Sans removed),
       scanlines, neon glows, hard edges, uppercase terminal buttons, cyan focus ring, .glitch (hover) / .glitch-once, neon icons.

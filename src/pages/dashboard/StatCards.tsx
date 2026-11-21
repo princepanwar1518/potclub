@@ -31,7 +31,7 @@ export function StatCards() {
       {stats.map((st) => (
         <Card key={st.label} className="flex items-start justify-between gap-2 p-4 sm:p-5">
           <div className="min-w-0">
-            <h2 className="font-sans text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">{st.label}</h2>
+            <h2 className="font-sans text-[11px] font-bold tracking-[0.14em] text-muted uppercase [text-shadow:none]">{st.label}</h2>
             {status === 'loading' ? (
               <div className="mt-2 h-8 w-20 skeleton" />
             ) : (

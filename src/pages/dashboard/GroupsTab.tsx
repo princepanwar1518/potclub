@@ -56,7 +56,7 @@ function GroupCard({ group }: { group: Group }) {
             aria-valuenow={filled}
             className="h-1.5 w-24 overflow-hidden bg-lilac-50"
           >
-            <div className="h-full bg-brand-gradient shadow-[0_0_8px_rgb(0_255_0/0.8)] transition-[width] duration-500" style={{ width: `${pct}%` }} />
+            <div className="h-full bg-brand-gradient transition-[width] duration-500" style={{ width: `${pct}%` }} />
           </div>
           <span className="font-semibold text-heading tabular-nums">
             {filled}/{group.size}
@@ -96,7 +96,7 @@ export function GroupsTab() {
 
   return (
     <div className="space-y-5">
-      <Card className="overflow-hidden bg-[linear-gradient(110deg,rgb(0_255_0/0.08),rgb(255_0_255/0.06)_55%,rgb(0_255_255/0.08))] p-5 sm:p-6">
+      <Card className="overflow-hidden bg-warn-soft p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="flex items-center gap-2 text-lg">
@@ -132,8 +132,8 @@ export function GroupsTab() {
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
             className={cn(
-              'rounded-btn border px-3 py-1 text-xs font-bold tracking-wider uppercase transition',
-              filter === f ? 'border-indigo/30 bg-lilac-50 text-violet' : 'border-line-soft bg-surface/80 text-muted hover:text-violet',
+              'rounded-btn border-2 px-3 py-1 font-display text-sm font-bold transition',
+              filter === f ? 'border-ink bg-violet-fill text-white shadow-[3px_3px_0_#141414]' : 'border-ink bg-surface text-ink hover:bg-surface-2',
             )}
           >
             {f === 'all' ? 'All sizes' : `${f} players`}

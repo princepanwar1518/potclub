@@ -1,6 +1,6 @@
 # PotClub — frontend (demo)
 
-Vite + React 19 + strict TypeScript + Tailwind CSS v4. Cyberpunk theme (dark, neon, terminal) — tokens in `src/index.css`. **Demo build:** play money, simulated players, no backend.
+Vite + React 19 + strict TypeScript + Tailwind CSS v4. Retro desktop theme (90s OS windows) — role tokens in `src/index.css`. **Demo build:** play money, simulated players, no backend.
 
 ## Commands
 

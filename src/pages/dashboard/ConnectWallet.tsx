@@ -27,7 +27,7 @@ type Step = 'method' | 'details' | 'review' | 'result'
 const EMPTY_BANK: BankDetails = { holder: '', account: '', confirmAccount: '', ifsc: '' }
 
 const inputClass =
-  'mt-1.5 h-11 w-full rounded-btn border bg-surface-2 px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:ring-2'
+  'mt-1.5 h-11 w-full rounded-btn border-2 bg-surface-2 px-3 text-base text-ink outline-none transition focus:ring-4'
 
 function Field({
   id,
@@ -66,7 +66,7 @@ function fieldProps(id: string, error: string | undefined, hasHint: boolean) {
     id,
     'aria-invalid': error ? true : undefined,
     'aria-describedby': error ? `${id}-error` : hasHint ? `${id}-hint` : undefined,
-    className: cn(inputClass, error ? 'border-danger focus:border-danger focus:ring-danger/20' : 'border-line focus:border-indigo focus:ring-indigo/20'),
+    className: cn(inputClass, error ? 'border-danger bg-pink-50 focus:ring-pink-50' : 'border-ink focus:ring-accent/40'),
   }
 }
 
@@ -145,7 +145,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby={titleId}
         onKeyDown={onKeyDown}
         onMouseDown={(e) => e.stopPropagation()}
-        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-[28px] border border-line bg-surface-2 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-float motion-safe:animate-fade-up sm:max-w-lg sm:rounded-panel sm:p-6"
+        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-panel border-[3px] border-b-0 border-ink bg-surface p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-float motion-safe:animate-fade-up sm:max-w-lg sm:rounded-panel sm:border-b-[3px] sm:p-6"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -179,7 +179,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="mt-2 h-1 overflow-hidden bg-lilac-50" aria-hidden="true">
-          <div className="h-full bg-brand-gradient shadow-[0_0_8px_rgb(0_255_0/0.8)] transition-[width] duration-300" style={{ width: `${stepIndex * 25}%` }} />
+          <div className="h-full bg-brand-gradient transition-[width] duration-300" style={{ width: `${stepIndex * 25}%` }} />
         </div>
 
         {step === 'method' ? (
@@ -197,7 +197,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
                   key={m.key}
                   className={cn(
                     'flex cursor-pointer items-center gap-3 rounded-card border p-4 transition',
-                    method === m.key ? 'border-indigo/40 bg-lilac-50/70 shadow-[inset_0_0_0_1px_rgb(0_255_0/0.5)]' : 'border-line-soft hover:border-indigo/25',
+                    method === m.key ? 'border-indigo/40 bg-lilac-50/70' : 'border-line-soft hover:border-indigo/25',
                   )}
                 >
                   <input
@@ -309,7 +309,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
 
         {step === 'review' ? (
           <div className="mt-5 space-y-4">
-            <dl className="divide-y divide-line-soft rounded-card border border-line-soft">
+            <dl className="divide-y divide-ink/30 rounded-card border-2 border-ink">
               {(method === 'bank'
                 ? [
                     ['Account holder', bank.holder.trim()],

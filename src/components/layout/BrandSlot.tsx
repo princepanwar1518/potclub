@@ -17,7 +17,9 @@ export function BrandSlot({ className, to = '/' }: { className?: string; to?: st
     >
       {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9 rounded-btn" /> : null}
       {brand.name ? (
-        <span className="glitch font-display text-lg font-bold tracking-widest text-cp-green uppercase neon-text">{brand.name}</span>
+        <span className="rounded-btn border-2 border-ink bg-accent px-2.5 py-0.5 font-display text-lg font-bold text-ink shadow-[3px_3px_0_#141414]">
+          {brand.name}
+        </span>
       ) : null}
     </Link>
   )

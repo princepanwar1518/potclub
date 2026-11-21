@@ -78,7 +78,7 @@ function LimitsForm() {
               aria-describedby={`${baseId}-${f.key}-hint`}
               value={values[f.key]}
               onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
-              className="mt-1.5 h-11 w-full rounded-btn border border-line bg-surface-2 px-3 text-base outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="mt-1.5 h-11 w-full rounded-btn border-2 border-ink bg-surface-2 px-3 text-base outline-none focus:border-ink focus:ring-4 focus:ring-accent/40"
             />
             <p id={`${baseId}-${f.key}-hint`} className="mt-1 text-xs text-muted">
               {f.hint}

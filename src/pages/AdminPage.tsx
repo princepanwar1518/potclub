@@ -46,7 +46,7 @@ function AccessDenied() {
         Go to dashboard
       </Link>
       {import.meta.env.DEV ? (
-        <div className="mt-6 w-full rounded-btn border border-dashed border-amber-600/40 bg-amber-50/60 p-4 text-sm">
+        <div className="mt-6 w-full rounded-btn border-2 border-dashed border-ink bg-warn-soft p-4 text-sm">
           <p className="font-medium text-amber-600">Development build only</p>
           <p className="mt-1 text-muted">
             There is no backend yet, so admin sign-in can't be real. This switch lets developers preview the admin UI and is removed
@@ -77,7 +77,7 @@ function AdminDashboard() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line bg-cp-black/85 shadow-header backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b-[3px] border-ink bg-bar">
         <Container className="flex h-16 items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <BrandSlot />
@@ -106,7 +106,7 @@ function AdminDashboard() {
           <section aria-label="Platform summary" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {stats.map((s) => (
               <Card key={s.label} className="p-4 sm:p-5">
-                <h2 className="font-sans text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">{s.label}</h2>
+                <h2 className="font-sans text-[11px] font-bold tracking-[0.14em] text-muted uppercase [text-shadow:none]">{s.label}</h2>
                 <p className="mt-1 font-display text-2xl font-semibold text-heading sm:text-3xl">{s.value}</p>
                 <p className="text-xs text-muted">{s.hint}</p>
               </Card>
@@ -177,7 +177,7 @@ function ConfigRow({
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="New value"
-              className="h-10 w-40 rounded-btn border border-line bg-surface-2 px-3 pr-14 text-sm outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="h-10 w-40 rounded-btn border-2 border-ink bg-surface-2 px-3 pr-14 text-sm outline-none focus:border-ink focus:ring-4 focus:ring-accent/40"
             />
             <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs text-muted">
               {suffix}
@@ -267,7 +267,7 @@ function DrawsPanel() {
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-line-soft">
+        <tbody className="divide-y divide-ink/30">
           {draws.map((g) => {
             const b = prizeBreakdown(g.entryFee, g.size, g.feePct)
             return (
@@ -314,7 +314,7 @@ function UsersPanel() {
             <th scope="col" className="px-3 py-2 text-right font-semibold">Wins</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-line-soft">
+        <tbody className="divide-y divide-ink/30">
           {rows.map((r) => (
             <tr key={r.player.id}>
               <th scope="row" className="px-3 py-2.5 text-left font-medium text-heading">

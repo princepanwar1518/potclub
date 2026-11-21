@@ -5,13 +5,13 @@ import { BrandSlot } from './BrandSlot'
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-cp-black/85 shadow-header backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b-[3px] border-ink bg-bar">
       <Container className="flex h-16 items-center justify-between gap-4">
         <BrandSlot />
         <nav aria-label="Main" className="flex items-center gap-1 sm:gap-3">
           <a
             href="#how-it-works"
-            className="rounded-btn px-3 py-2 text-xs font-bold tracking-wider text-ink uppercase transition hover:bg-cp-green/10 hover:text-cp-green"
+            className="rounded-btn border-2 border-transparent px-3 py-1.5 font-display text-base font-bold text-ink transition hover:border-ink hover:bg-surface-2"
           >
             How it works
           </a>

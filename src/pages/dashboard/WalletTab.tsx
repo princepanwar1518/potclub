@@ -86,7 +86,7 @@ function TopUpForm({
           placeholder={`${formatNumber(min)} – ${formatNumber(max)}`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="mt-1.5 h-11 w-full rounded-btn border border-line bg-surface-2 px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+          className="mt-1.5 h-11 w-full rounded-btn border-2 border-ink bg-surface-2 px-3 text-base text-heading outline-none transition focus:border-ink focus:ring-4 focus:ring-accent/40"
         />
         {presets ? (
           <div className="mt-2 flex flex-wrap gap-2">
@@ -95,7 +95,7 @@ function TopUpForm({
                 key={p}
                 type="button"
                 onClick={() => setValue(String(p))}
-                className="rounded-btn border border-line-soft bg-surface-2 px-3 py-1 text-sm font-medium text-violet transition hover:border-indigo/30 hover:bg-lilac-50"
+                className="rounded-btn border-2 border-ink bg-surface-2 px-3 py-1 text-sm font-medium text-violet transition hover:border-indigo/30 hover:bg-lilac-50"
               >
                 {formatNumber(p)}
               </button>
@@ -116,7 +116,7 @@ function Transactions({ entries }: { entries: LedgerEntry[] }) {
     return <EmptyState icon={<Wallet className="size-6" />} title="No transactions yet" body="Top-ups, entries and prizes will be listed here." />
   }
   return (
-    <ul className="divide-y divide-line-soft">
+    <ul className="divide-y divide-ink/30">
       {entries.map((e) => {
         const meta = typeMeta[e.type]
         return (
@@ -196,7 +196,7 @@ function Referral() {
               onChange={(e) => setCode(e.target.value)}
               placeholder="REF-123456"
               autoComplete="off"
-              className="h-10 min-w-0 flex-1 rounded-btn border border-line bg-surface-2 px-3 text-sm uppercase outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="h-10 min-w-0 flex-1 rounded-btn border-2 border-ink bg-surface-2 px-3 text-sm uppercase outline-none focus:border-ink focus:ring-4 focus:ring-accent/40"
             />
             <Button type="submit" size="sm" disabled={apply.pending || code.trim() === ''}>
               Apply

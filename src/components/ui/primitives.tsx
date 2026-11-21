@@ -9,7 +9,7 @@ export function Container({ className, ...rest }: ComponentPropsWithoutRef<'div'
 export function Card({ className, ...rest }: ComponentPropsWithoutRef<'div'>) {
   return (
     <div
-      className={cn('rounded-card border border-line bg-surface/90 shadow-card backdrop-blur-sm', className)}
+      className={cn('rounded-card border-[3px] border-ink bg-surface shadow-card', className)}
       {...rest}
     />
   )
@@ -29,7 +29,7 @@ export function IconChip({ tone, children, className }: { tone: Tone; children: 
   return (
     <span
       aria-hidden="true"
-      className={cn('inline-flex size-9 shrink-0 items-center justify-center rounded-btn border border-current/30', toneClasses[tone], className)}
+      className={cn('inline-flex size-9 shrink-0 items-center justify-center rounded-btn border-2 border-ink', toneClasses[tone], className)}
     >
       {children}
     </span>
@@ -40,7 +40,7 @@ export function Badge({ tone, children, className }: { tone: Tone; children: Rea
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-btn border border-current/40 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider',
+        'inline-flex items-center gap-1 rounded-btn border-2 border-ink px-2 py-0.5 font-display text-xs font-bold',
         toneClasses[tone],
         className,
       )}
@@ -52,7 +52,12 @@ export function Badge({ tone, children, className }: { tone: Tone; children: Rea
 
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p className={cn('text-xs font-bold tracking-[0.2em] text-cp-cyan uppercase', className)}><span aria-hidden="true">&gt; </span>
+    <p
+      className={cn(
+        'inline-block rounded-btn border-2 border-ink bg-surface-2 px-2 py-0.5 font-display text-sm font-bold text-ink shadow-[3px_3px_0_#141414]',
+        className,
+      )}
+    >
       {children}
     </p>
   )
