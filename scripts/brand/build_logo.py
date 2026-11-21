@@ -38,27 +38,27 @@ PALETTE = {
 # 24x24 pixel art. "." = transparent.
 POT = [
     "........................",
-    "..........KKKK..........",
-    ".........KYYYOK.....S...",
-    ".........KYWYOK....SSS..",
-    ".........KYYYOK.....S...",
-    "....KKK...KKKK..........",
-    "...KYYOK.......KKKK.....",
-    "...KYWOK......KYYYOK....",
-    "...KYYOK......KYWYOK....",
-    "....KKK.......KYYYOK....",
-    "...............KKKK.....",
+    "........................",
+    "........................",
+    "...................S....",
+    "..................SSS...",
+    "...................S....",
+    "........................",
     "..KKKKKKKKKKKKKKKKKKKK..",
     ".KMMMMMMMMMMMMMMMMMMMMK.",
     ".KMMMMMMMMMMMMMMMMMMMMK.",
     "..KKKKKKKKKKKKKKKKKKKK..",
-    "KKKKVWVVVVVVVVVVVVVVKKKK",
+    "..KVVWVVVVVVVVVVVVVVVK..",
+    "KKKVVWVVVVVVVVVVVVVVVKKK",
     "K.KVVWVVVVVVVVVVVVVVVK.K",
     "KKKVVWVVVVVVVVVVVVVVVKKK",
     "..KVVVVVVVVVVVVVVVVVVK..",
+    "..KVVVVVVVVVVVVVVVVVVK..",
     "...KVVVVVVVVVVVVVVVVK...",
-    "....KKKKKKKKKKKKKKKK....",
-    ".....KK..........KK.....",
+    "....KVVVVVVVVVVVVVVK....",
+    ".....KKKKKKKKKKKKKK.....",
+    "......KK........KK......",
+    "........................",
     "........................",
     "........................",
 ]
@@ -96,7 +96,7 @@ def badge(x: float, y: float, size: float) -> str:
         f'<rect x="{x + shadow:g}" y="{y + shadow:g}" width="{size:g}" height="{size:g}" rx="{r:g}" fill="{INK}"/>'
         f'<rect x="{x + stroke / 2:g}" y="{y + stroke / 2:g}" width="{inner:g}" height="{inner:g}" rx="{r:g}" '
         f'fill="#E8DDFF" stroke="{INK}" stroke-width="{stroke:g}"/>'
-        f'<g shape-rendering="crispEdges">{pixel_rects(POT, x + art_off, y + art_off + art_px * 0.6, art_px)}</g>'
+        f'<g shape-rendering="crispEdges">{pixel_rects(POT, x + art_off, y + art_off, art_px)}</g>'
     )
 
 
@@ -107,7 +107,7 @@ def app_icon(size: float, art_scale: float) -> str:
     off = (size - 24 * art_px) / 2
     return (
         f'<rect width="{size:g}" height="{size:g}" fill="#E8DDFF"/>'
-        f'<g shape-rendering="crispEdges">{pixel_rects(POT, off, off + art_px * 0.6, art_px)}</g>'
+        f'<g shape-rendering="crispEdges">{pixel_rects(POT, off, off, art_px)}</g>'
     )
 
 

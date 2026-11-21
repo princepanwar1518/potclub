@@ -87,7 +87,7 @@ Not started yet: backend foundation (auth, RBAC, audit log, read-only game data)
 - Host config: return HTTP 404 for unknown routes, security headers (CSP, HSTS, X-Frame-Options), canonical URL + og:image once a domain and branding exist.
 
 ## Blocked / needs user
-- Branding: name decided = PotClub (2026-11-21, applied in ed0161a). Logo DONE (2026-11-21): pixel-art coin pot mark + Press Start 2P wordmark (OFL, converted to paths — no font shipped). Sources: scripts/brand/build_logo.py → public/brand/*.svg; scripts/brand/render_icons.py → public/icons/*.png; public/favicon.svg = mark. BrandSlot shows mark + wordmark (aria-label carries the name); brand files are precached by sw.js.
+- Branding: name decided = PotClub (2026-11-21, applied in ed0161a). Logo DONE (2026-11-21): pixel-art pot mark (no coins since 2026-11-21) + Press Start 2P wordmark (OFL, converted to paths — no font shipped). Sources: scripts/brand/build_logo.py → public/brand/*.svg; scripts/brand/render_icons.py → public/icons/*.png; public/favicon.svg = mark. BrandSlot shows mark + wordmark (aria-label carries the name); brand files are precached by sw.js.
 - Real backend/payments are out of scope — mock only. Real-money online lottery/gaming is restricted in India (Promotion and Regulation of Online Gaming Act, 2025); confirm legal basis before any real-money launch.
 - Reference mobile layout could not be captured (browser resize had no effect) — design mobile from desktop rules.
 
