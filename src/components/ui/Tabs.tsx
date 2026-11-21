@@ -53,7 +53,7 @@ export function TabList<K extends string>({
       role="tablist"
       aria-label={label}
       onKeyDown={onKeyDown}
-      className="flex gap-1 overflow-x-auto rounded-2xl border border-line-soft bg-white/80 p-1 shadow-card [scrollbar-width:none]"
+      className="flex gap-1 overflow-x-auto rounded-card border border-line bg-surface/90 p-1 shadow-card [scrollbar-width:none]"
     >
       {items.map((t) => {
         const selected = t.key === active
@@ -71,14 +71,14 @@ export function TabList<K extends string>({
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(t.key)}
             className={cn(
-              'inline-flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-medium transition',
-              selected ? 'bg-lilac-50 text-violet shadow-[inset_0_0_0_1px_rgb(109_90_230/0.15)]' : 'text-muted hover:bg-lilac-50/60 hover:text-violet',
+              'inline-flex shrink-0 items-center gap-1.5 rounded-btn px-3.5 py-2 text-xs font-bold tracking-wider uppercase transition',
+              selected ? 'bg-cp-green/10 text-cp-green shadow-[inset_0_0_0_1px_rgb(0_255_0/0.5),0_0_14px_rgb(0_255_0/0.2)]' : 'text-muted hover:bg-cp-green/5 hover:text-cp-green',
             )}
           >
             {t.icon}
             {t.label}
             {t.badge ? (
-              <span className="ml-0.5 rounded-full bg-rose px-1.5 text-[11px] leading-[18px] font-semibold text-white">
+              <span className="ml-0.5 rounded-btn bg-cp-magenta px-1.5 text-[11px] leading-[18px] font-bold text-black">
                 <span className="sr-only">, </span>
                 {t.badge}
                 <span className="sr-only"> unread</span>

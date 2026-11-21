@@ -13,10 +13,12 @@ export function BrandSlot({ className, to = '/' }: { className?: string; to?: st
       to={to}
       aria-label={brand.name ?? brand.homeLabel}
       data-brand-slot={hasBrand ? 'filled' : 'empty'}
-      className={cn('inline-flex h-9 min-w-9 items-center gap-2 rounded-xl', className)}
+      className={cn('inline-flex h-9 min-w-9 items-center gap-2 rounded-btn', className)}
     >
-      {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9 rounded-xl" /> : null}
-      {brand.name ? <span className="font-display text-lg font-semibold text-heading">{brand.name}</span> : null}
+      {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9 rounded-btn" /> : null}
+      {brand.name ? (
+        <span className="glitch font-display text-lg font-bold tracking-widest text-cp-green uppercase neon-text">{brand.name}</span>
+      ) : null}
     </Link>
   )
 }

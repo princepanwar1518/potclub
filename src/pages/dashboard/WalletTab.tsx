@@ -86,7 +86,7 @@ function TopUpForm({
           placeholder={`${formatNumber(min)} – ${formatNumber(max)}`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="mt-1.5 h-11 w-full rounded-xl border border-line bg-white px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+          className="mt-1.5 h-11 w-full rounded-btn border border-line bg-surface-2 px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:border-indigo focus:ring-2 focus:ring-indigo/20"
         />
         {presets ? (
           <div className="mt-2 flex flex-wrap gap-2">
@@ -95,7 +95,7 @@ function TopUpForm({
                 key={p}
                 type="button"
                 onClick={() => setValue(String(p))}
-                className="rounded-full border border-line-soft bg-white px-3 py-1 text-sm font-medium text-violet transition hover:border-indigo/30 hover:bg-lilac-50"
+                className="rounded-btn border border-line-soft bg-surface-2 px-3 py-1 text-sm font-medium text-violet transition hover:border-indigo/30 hover:bg-lilac-50"
               >
                 {formatNumber(p)}
               </button>
@@ -121,7 +121,7 @@ function Transactions({ entries }: { entries: LedgerEntry[] }) {
         const meta = typeMeta[e.type]
         return (
           <li key={e.id} className="flex items-center gap-3 px-3 py-3">
-            <span aria-hidden="true" className={cn('inline-flex size-9 shrink-0 items-center justify-center rounded-xl', meta.tone)}>
+            <span aria-hidden="true" className={cn('inline-flex size-9 shrink-0 items-center justify-center rounded-btn', meta.tone)}>
               <meta.icon className="size-4" />
             </span>
             <div className="min-w-0 flex-1">
@@ -162,7 +162,7 @@ function Referral() {
       </h3>
       <p className="mt-1 text-sm text-muted">Your referral code</p>
       <div className="mt-2 flex items-center gap-2">
-        <code className="flex-1 rounded-xl border border-dashed border-indigo/30 bg-lilac-50 px-3 py-2 font-mono text-sm font-semibold text-violet">
+        <code className="flex-1 rounded-btn border border-dashed border-indigo/30 bg-lilac-50 px-3 py-2 font-mono text-sm font-semibold text-violet">
           {state.referral.code}
         </code>
         <Button size="sm" variant="secondary" onClick={() => void copy()} aria-label="Copy referral code">
@@ -196,7 +196,7 @@ function Referral() {
               onChange={(e) => setCode(e.target.value)}
               placeholder="REF-123456"
               autoComplete="off"
-              className="h-10 min-w-0 flex-1 rounded-xl border border-line bg-white px-3 text-sm uppercase outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="h-10 min-w-0 flex-1 rounded-btn border border-line bg-surface-2 px-3 text-sm uppercase outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
             />
             <Button type="submit" size="sm" disabled={apply.pending || code.trim() === ''}>
               Apply

@@ -37,7 +37,7 @@ export function StatCards() {
             ) : (
               <p className={cn('mt-1 font-display text-2xl leading-tight font-semibold break-words sm:text-3xl', st.valueClass)}>{st.value}</p>
             )}
-            <p className="mt-0.5 truncate text-xs text-muted">{st.hint}</p>
+            <p className="mt-0.5 text-xs text-muted">{st.hint}</p>
           </div>
           <IconChip tone={st.tone} className="hidden sm:inline-flex">
             <st.icon className="size-[18px]" />

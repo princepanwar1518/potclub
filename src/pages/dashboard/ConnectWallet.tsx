@@ -27,7 +27,7 @@ type Step = 'method' | 'details' | 'review' | 'result'
 const EMPTY_BANK: BankDetails = { holder: '', account: '', confirmAccount: '', ifsc: '' }
 
 const inputClass =
-  'mt-1.5 h-11 w-full rounded-xl border bg-white px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:ring-2'
+  'mt-1.5 h-11 w-full rounded-btn border bg-surface-2 px-3 text-base text-heading outline-none transition placeholder:text-muted/60 focus:ring-2'
 
 function Field({
   id,
@@ -137,7 +137,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
 
   // Portal to <body>: ancestors with backdrop-filter/transform would otherwise trap `position: fixed`.
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-heading/40 backdrop-blur-sm sm:items-center sm:p-6" onMouseDown={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 backdrop-blur-sm sm:items-center sm:p-6" onMouseDown={onClose}>
       <div
         ref={dialogRef}
         role="dialog"
@@ -145,7 +145,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
         aria-labelledby={titleId}
         onKeyDown={onKeyDown}
         onMouseDown={(e) => e.stopPropagation()}
-        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-[28px] border border-white bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-float motion-safe:animate-fade-up sm:max-w-lg sm:rounded-panel sm:p-6"
+        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-[28px] border border-line bg-surface-2 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-float motion-safe:animate-fade-up sm:max-w-lg sm:rounded-panel sm:p-6"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
                 type="button"
                 onClick={() => setStep(step === 'review' ? 'details' : 'method')}
                 aria-label="Back"
-                className="inline-flex size-9 items-center justify-center rounded-xl text-muted hover:bg-lilac-50"
+                className="inline-flex size-9 items-center justify-center rounded-btn text-muted hover:bg-lilac-50"
               >
                 <ArrowLeft aria-hidden="true" className="size-4" />
               </button>
@@ -172,14 +172,14 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="inline-flex size-9 items-center justify-center rounded-xl text-muted hover:bg-lilac-50"
+            className="inline-flex size-9 items-center justify-center rounded-btn text-muted hover:bg-lilac-50"
           >
             <X aria-hidden="true" className="size-4" />
           </button>
         </div>
 
-        <div className="mt-2 h-1 overflow-hidden rounded-full bg-lilac-50" aria-hidden="true">
-          <div className="h-full rounded-full bg-brand-gradient transition-[width] duration-300" style={{ width: `${stepIndex * 25}%` }} />
+        <div className="mt-2 h-1 overflow-hidden bg-lilac-50" aria-hidden="true">
+          <div className="h-full bg-brand-gradient shadow-[0_0_8px_rgb(0_255_0/0.8)] transition-[width] duration-300" style={{ width: `${stepIndex * 25}%` }} />
         </div>
 
         {step === 'method' ? (
@@ -196,8 +196,8 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
                 <label
                   key={m.key}
                   className={cn(
-                    'flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition',
-                    method === m.key ? 'border-indigo/40 bg-lilac-50/70 shadow-[inset_0_0_0_1px_rgb(109_90_230/0.25)]' : 'border-line-soft hover:border-indigo/25',
+                    'flex cursor-pointer items-center gap-3 rounded-card border p-4 transition',
+                    method === m.key ? 'border-indigo/40 bg-lilac-50/70 shadow-[inset_0_0_0_1px_rgb(0_255_0/0.5)]' : 'border-line-soft hover:border-indigo/25',
                   )}
                 >
                   <input
@@ -206,9 +206,9 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
                     value={m.key}
                     checked={method === m.key}
                     onChange={() => setMethod(m.key)}
-                    className="size-4 accent-[#6d5ae6]"
+                    className="size-4 "
                   />
-                  <span aria-hidden="true" className="inline-flex size-10 items-center justify-center rounded-xl bg-white text-indigo shadow-card">
+                  <span aria-hidden="true" className="inline-flex size-10 items-center justify-center rounded-btn bg-surface-2 text-indigo shadow-card">
                     <m.icon className="size-5" />
                   </span>
                   <span>
@@ -309,7 +309,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
 
         {step === 'review' ? (
           <div className="mt-5 space-y-4">
-            <dl className="divide-y divide-line-soft rounded-2xl border border-line-soft">
+            <dl className="divide-y divide-line-soft rounded-card border border-line-soft">
               {(method === 'bank'
                 ? [
                     ['Account holder', bank.holder.trim()],
@@ -330,7 +330,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
                 type="checkbox"
                 checked={confirmOwner}
                 onChange={(e) => setConfirmOwner(e.target.checked)}
-                className="mt-0.5 size-4 accent-[#6d5ae6]"
+                className="mt-0.5 size-4 "
               />
               This account is in my own name.
             </label>
@@ -343,7 +343,7 @@ function ConnectDialog({ onClose }: { onClose: () => void }) {
         {step === 'result' ? (
           <div className="mt-5 space-y-4" role="status">
             <div className="flex flex-col items-center text-center">
-              <span aria-hidden="true" className="inline-flex size-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+              <span aria-hidden="true" className="inline-flex size-14 items-center justify-center rounded-card bg-amber-50 text-amber-600">
                 <CircleAlert className="size-7" />
               </span>
               <h3 className="mt-3 text-lg">Bank linking is switched off</h3>
@@ -373,7 +373,7 @@ export function ConnectWalletCard() {
   return (
     <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-start gap-3">
-        <span aria-hidden="true" className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+        <span aria-hidden="true" className="inline-flex size-10 shrink-0 items-center justify-center rounded-btn bg-sky-50 text-sky-600">
           <Landmark className="size-5" />
         </span>
         <div>

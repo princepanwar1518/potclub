@@ -40,7 +40,7 @@ function DrawRoom({ group }: { group: Group }) {
           </p>
         </div>
         <p
-          className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 font-display text-lg font-semibold text-amber-600 tabular-nums"
+          className="inline-flex items-center gap-1.5 rounded-btn border border-cp-yellow/50 bg-amber-50 px-3 py-1 font-display text-lg font-semibold text-amber-600 tabular-nums"
           aria-live="off"
         >
           <Clock aria-hidden="true" className="size-4" />
@@ -62,10 +62,10 @@ function DrawRoom({ group }: { group: Group }) {
               aria-label={`Card ${card}${mine ? ', your card' : taken ? ', taken' : ''}`}
               onClick={() => void pick.run(() => actions.pickCard(group.id, card), `Card ${card} is yours.`)}
               className={cn(
-                'aspect-[3/4] rounded-xl border font-display text-lg font-semibold transition',
-                mine && 'border-transparent bg-brand-gradient text-white shadow-btn',
+                'aspect-[3/4] rounded-btn border font-display text-lg font-semibold transition',
+                mine && 'border-cp-green bg-cp-green text-black shadow-btn',
                 !mine && taken && 'cursor-not-allowed border-line-soft bg-lilac-50/60 text-muted/50 line-through',
-                !mine && !taken && 'border-line-soft bg-white text-heading hover:-translate-y-0.5 hover:border-indigo/40 hover:shadow-card',
+                !mine && !taken && 'border-line-soft bg-surface-2 text-heading hover:-translate-y-0.5 hover:border-indigo/40 hover:shadow-card',
               )}
             >
               {card}
@@ -93,12 +93,12 @@ function ResultCard({ group }: { group: Group }) {
   const { state } = useDemo()
   const won = group.winnerId === state.currentPlayerId
   return (
-    <Card className={cn('p-5 sm:p-6 motion-safe:animate-fade-up', won && 'border-amber-600/30 bg-[linear-gradient(110deg,#fff7e0,#ffffff)]')}>
+    <Card className={cn('p-5 sm:p-6 motion-safe:animate-fade-up', won && 'border-cp-yellow/60 bg-cp-yellow/5 shadow-[0_0_30px_rgb(255_215_0/0.25)]')}>
       <div className="flex items-center gap-4">
         <span
           aria-hidden="true"
           className={cn(
-            'inline-flex size-16 shrink-0 items-center justify-center rounded-2xl font-display text-3xl font-semibold',
+            'inline-flex size-16 shrink-0 items-center justify-center rounded-card font-display text-3xl font-semibold',
             won ? 'bg-amber-50 text-amber-600' : 'bg-lilac-50 text-lilac-600',
           )}
         >
@@ -146,7 +146,7 @@ export function MyGroups() {
       {waiting.length > 0 ? (
         <ul className="flex flex-wrap gap-2">
           {waiting.map((g) => (
-            <li key={g.id} className="rounded-full border border-line-soft bg-white/80 px-3 py-1.5 text-sm text-muted">
+            <li key={g.id} className="rounded-btn border border-line-soft bg-surface/80 px-3 py-1.5 text-sm text-muted">
               <span className="font-semibold text-heading">#{g.number}</span> · {g.size}-player · waiting {g.playerIds.length}/{g.size}
             </li>
           ))}

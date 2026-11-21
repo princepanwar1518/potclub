@@ -78,7 +78,7 @@ function LimitsForm() {
               aria-describedby={`${baseId}-${f.key}-hint`}
               value={values[f.key]}
               onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
-              className="mt-1.5 h-11 w-full rounded-xl border border-line bg-white px-3 text-base outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="mt-1.5 h-11 w-full rounded-btn border border-line bg-surface-2 px-3 text-base outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
             />
             <p id={`${baseId}-${f.key}-hint`} className="mt-1 text-xs text-muted">
               {f.hint}
@@ -149,7 +149,7 @@ function BlockCard({
           Active until <strong>{formatDateTime(activeUntil)}</strong>. It can't be shortened or cancelled.
         </Notice>
       ) : chosen ? (
-        <div className="mt-4 rounded-xl border border-danger/20 bg-pink-50/60 p-4">
+        <div className="mt-4 rounded-btn border border-danger/20 bg-pink-50/60 p-4">
           <p className="text-sm text-heading">
             {confirmVerb} for <strong>{chosen.label}</strong>? You won't be able to join paid groups until it ends, and it can't be
             undone.

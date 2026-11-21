@@ -54,9 +54,9 @@ function GroupCard({ group }: { group: Group }) {
             aria-valuemin={0}
             aria-valuemax={group.size}
             aria-valuenow={filled}
-            className="h-1.5 w-24 overflow-hidden rounded-full bg-lilac-50"
+            className="h-1.5 w-24 overflow-hidden bg-lilac-50"
           >
-            <div className="h-full rounded-full bg-brand-gradient transition-[width] duration-500" style={{ width: `${pct}%` }} />
+            <div className="h-full bg-brand-gradient shadow-[0_0_8px_rgb(0_255_0/0.8)] transition-[width] duration-500" style={{ width: `${pct}%` }} />
           </div>
           <span className="font-semibold text-heading tabular-nums">
             {filled}/{group.size}
@@ -96,7 +96,7 @@ export function GroupsTab() {
 
   return (
     <div className="space-y-5">
-      <Card className="overflow-hidden bg-[linear-gradient(110deg,rgb(241_237_255/0.95),rgb(255_233_239/0.8)_55%,rgb(220_247_236/0.85))] p-5 sm:p-6">
+      <Card className="overflow-hidden bg-[linear-gradient(110deg,rgb(0_255_0/0.08),rgb(255_0_255/0.06)_55%,rgb(0_255_255/0.08))] p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="flex items-center gap-2 text-lg">
@@ -110,7 +110,7 @@ export function GroupsTab() {
                 key={size}
                 size="sm"
                 variant="secondary"
-                className="rounded-full bg-white"
+                className="bg-surface-2"
                 disabled={quick.pending}
                 title={`Join or start a ${size}-player group (${formatCoins(DEFAULT_ENTRY_FEE[size])} entry)`}
                 onClick={() => void quick.run(() => actions.quickPlay(size), `You're in a ${size}-player group. We'll start the draw as soon as it fills.`)}
@@ -132,8 +132,8 @@ export function GroupsTab() {
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
             className={cn(
-              'rounded-full border px-3 py-1 text-sm font-medium transition',
-              filter === f ? 'border-indigo/30 bg-lilac-50 text-violet' : 'border-line-soft bg-white/70 text-muted hover:text-violet',
+              'rounded-btn border px-3 py-1 text-xs font-bold tracking-wider uppercase transition',
+              filter === f ? 'border-indigo/30 bg-lilac-50 text-violet' : 'border-line-soft bg-surface/80 text-muted hover:text-violet',
             )}
           >
             {f === 'all' ? 'All sizes' : `${f} players`}

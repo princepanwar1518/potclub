@@ -31,6 +31,14 @@ Project root: `/home/claude/site` (cloud workspace). No other existing project w
 - End-to-end draw in Chrome: joined → picked card → grace → reveal → balance ₹9,900 + ₹1,76,000 = ₹1,85,900, wins 1, history/alerts updated, 0 console errors.
 - Production bundle grep: dev-only "Preview as admin" string absent from dist.
 
+## Cyberpunk theme (2026-11-21)
+User asked for the Cyberpunk UI style (dark, neon, terminal) — this REPLACES the original "light mode only" rule.
+- [x] Tokens remapped in src/index.css (names kept; mapping documented there), JetBrains Mono self-hosted (Fredoka/DM Sans removed),
+      scanlines, neon glows, hard edges, uppercase terminal buttons, cyan focus ring, .glitch (hover) / .glitch-once, neon icons.
+- [x] Verified: 86 tests, axe 0 violations on 9 views x 2 widths (incl. contrast) + connect dialog, reduced motion stops animations,
+      no horizontal overflow on phones.
+- Contrast rule: pure #FF0000 is for borders/decoration only; error text uses --color-danger #FF4D4D (6.0:1).
+
 ## Mobile + wallet work (2026-11-17)
 User decisions: play coins (no cash value); installable web app now + native Expo app next; has Apple Developer + Google Play accounts (no Expo account yet); do NOT deploy.
 - [x] Play coins replace ₹ everywhere; withdrawals removed; internals renamed (topup, minTopUp, addCoins) — commit 30de908

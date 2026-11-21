@@ -60,11 +60,11 @@ export function DashboardPage() {
       <main id="main">
         <Container className="space-y-6 py-6 sm:py-8">
           <h1 className="sr-only">Player dashboard</h1>
-          <p className="rounded-xl border border-amber-600/15 bg-amber-50/70 px-3 py-2 text-center text-xs text-amber-600 sm:text-sm">
+          <p className="rounded-btn border border-amber-600/15 bg-amber-50/70 px-3 py-2 text-center text-xs text-amber-600 sm:text-sm">
             Play coins only — coins are free, have no cash value and can't be bought or cashed out. Other players are simulated.
           </p>
           {state.config.maintenance ? (
-            <p role="status" className="rounded-xl border border-danger/20 bg-pink-50 px-3 py-2 text-center text-sm text-danger">
+            <p role="status" className="rounded-btn border border-danger/20 bg-pink-50 px-3 py-2 text-center text-sm text-danger">
               Paid groups are paused for maintenance. Your balance and history are safe.
             </p>
           ) : null}

@@ -4,7 +4,7 @@ import { BrandSlot } from './BrandSlot'
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line-soft bg-white/70 backdrop-blur">
+    <footer className="border-t border-line bg-cp-black/85 backdrop-blur">
       <Container className="flex flex-col gap-3 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
         <BrandSlot />
         <p>

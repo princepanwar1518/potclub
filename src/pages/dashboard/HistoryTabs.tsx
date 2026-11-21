@@ -28,7 +28,7 @@ export function HistoryTab() {
           const iPlayed = g.playerIds.includes(me)
           return (
             <li key={g.id} className="flex flex-wrap items-center gap-3 px-3 py-3 sm:flex-nowrap">
-              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-lilac-50 text-sm font-semibold text-lilac-600">
+              <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-btn bg-lilac-50 text-sm font-semibold text-lilac-600">
                 {g.size}P
               </span>
               <div className="min-w-0 flex-1">
@@ -57,7 +57,7 @@ export function HistoryTab() {
 export function LeaderboardTab() {
   const { state } = useDemo()
   const rows = leaderboard(state)
-  const medal = ['text-amber-600', 'text-muted', 'text-[#b4693a]']
+  const medal = ['text-amber-600', 'text-muted', 'text-[#ff9f43]']
 
   if (rows.length === 0) {
     return <EmptyState icon={<Trophy className="size-6" />} title="No winners yet" body="The leaderboard fills in as draws are settled." />
@@ -145,7 +145,7 @@ export function AlertsTab() {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    'mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-xl',
+                    'mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-btn',
                     n.kind === 'win' ? 'bg-amber-50 text-amber-600' : 'bg-lilac-50 text-lilac-600',
                   )}
                 >

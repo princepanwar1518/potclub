@@ -37,7 +37,7 @@ function AccessDenied() {
   const { actions } = useDemo()
   return (
     <main id="main" className="mx-auto flex min-h-dvh max-w-xl flex-col items-start justify-center gap-4 px-6">
-      <span aria-hidden="true" className="inline-flex size-12 items-center justify-center rounded-2xl bg-lilac-50 text-lilac-600">
+      <span aria-hidden="true" className="inline-flex size-12 items-center justify-center rounded-card bg-lilac-50 text-lilac-600">
         <Lock className="size-6" />
       </span>
       <h1 className="text-3xl">Administrator access required</h1>
@@ -46,7 +46,7 @@ function AccessDenied() {
         Go to dashboard
       </Link>
       {import.meta.env.DEV ? (
-        <div className="mt-6 w-full rounded-xl border border-dashed border-amber-600/40 bg-amber-50/60 p-4 text-sm">
+        <div className="mt-6 w-full rounded-btn border border-dashed border-amber-600/40 bg-amber-50/60 p-4 text-sm">
           <p className="font-medium text-amber-600">Development build only</p>
           <p className="mt-1 text-muted">
             There is no backend yet, so admin sign-in can't be real. This switch lets developers preview the admin UI and is removed
@@ -77,14 +77,14 @@ function AdminDashboard() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/60 bg-white/80 shadow-header backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-line bg-cp-black/85 shadow-header backdrop-blur-md">
         <Container className="flex h-16 items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <BrandSlot />
             <Badge tone="pink">Admin</Badge>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/dashboard" className="rounded-xl px-3 py-2 text-sm font-medium text-violet hover:bg-lilac-50">
+            <Link to="/dashboard" className="rounded-btn px-3 py-2 text-sm font-medium text-violet hover:bg-lilac-50">
               Back to dashboard
             </Link>
             <Button size="sm" variant="ghost" onClick={() => actions.setRole('guest')}>
@@ -177,7 +177,7 @@ function ConfigRow({
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="New value"
-              className="h-10 w-40 rounded-xl border border-line bg-white px-3 pr-14 text-sm outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
+              className="h-10 w-40 rounded-btn border border-line bg-surface-2 px-3 pr-14 text-sm outline-none focus:border-indigo focus:ring-2 focus:ring-indigo/20"
             />
             <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs text-muted">
               {suffix}
