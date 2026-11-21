@@ -33,20 +33,26 @@ PALETTE = {
     "Y": "#FFC233",  # coin face
     "O": "#FFA62B",  # coin edge
     "S": "#FFFFFF",  # sparkle
+    "B": "#A0612F",  # dog fur
+    "D": "#6B3A1A",  # dog ears
+    "L": "#E9C29A",  # dog muzzle
+    "T": "#FF7FA0",  # tongue
+    "R": "#E0526F",  # tongue shade
 }
 
 # 24x24 pixel art. "." = transparent.
 POT = [
     "........................",
-    "........................",
-    "........................",
-    "...................S....",
-    "..................SSS...",
-    "...................S....",
-    "........................",
-    "..KKKKKKKKKKKKKKKKKKKK..",
-    ".KMMMMMMMMMMMMMMMMMMMMK.",
-    ".KMMMMMMMMMMMMMMMMMMMMK.",
+    "........KKKKKKKK.....S..",
+    "......KKBBBBBBBBKK..SSS.",
+    ".....KDDBBBBBBBBDDK..S..",
+    "....KDDDBKBBBBKBDDDK....",
+    "....KDDDBBBLLBBBDDDK....",
+    "....KDDKBBLKKLBBKDDK....",
+    ".KBBKKKKBLLLLLLBKKKKBBK.",
+    "..KKKKKKKKKTTKKKKKKKKK..",
+    ".KMMMMMMMMKTTKMMMMMMMMK.",
+    ".KMMMMMMMMKRTKMMMMMMMMK.",
     "..KKKKKKKKKKKKKKKKKKKK..",
     "..KVVWVVVVVVVVVVVVVVVK..",
     "KKKVVWVVVVVVVVVVVVVVVKKK",
@@ -58,7 +64,6 @@ POT = [
     "....KVVVVVVVVVVVVVVK....",
     ".....KKKKKKKKKKKKKK.....",
     "......KK........KK......",
-    "........................",
     "........................",
     "........................",
 ]
