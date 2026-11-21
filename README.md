@@ -1,4 +1,4 @@
-# Group draws — frontend (demo)
+# PotClub — frontend (demo)
 
 Vite + React 19 + strict TypeScript + Tailwind CSS v4. Light mode only. **Demo build:** play money, simulated players, no backend.
 

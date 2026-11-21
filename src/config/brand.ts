@@ -1,7 +1,8 @@
 /**
- * Branding is intentionally empty until the owner supplies it.
- * Set `name` and/or `logoSrc` (e.g. '/brand/logo.svg' placed in /public/brand) and every
- * header, footer and page title picks it up. Nothing else needs to change.
+ * Brand settings. The name appears in the header, footer and page titles.
+ * No logo yet: set `logoSrc` (e.g. '/brand/logo.svg' placed in /public/brand) when one exists.
+ * The installed-app name lives in public/manifest.webmanifest and index.html (keep them in sync;
+ * src/brand.test.ts checks this).
  */
 export interface BrandConfig {
   name: string | null
@@ -11,7 +12,7 @@ export interface BrandConfig {
 }
 
 export const brand: BrandConfig = {
-  name: null,
+  name: 'PotClub',
   logoSrc: null,
   homeLabel: 'Home',
 }

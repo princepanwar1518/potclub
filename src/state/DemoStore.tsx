@@ -13,6 +13,7 @@ import { parsePersistedState } from './validate'
  * same checks server-side with real authentication. See fix_plan.md → "Backend requirements".
  */
 
+// Kept from before the PotClub rename so existing players keep their coins and history.
 const STORAGE_KEY = 'group-draws-demo-state'
 
 function loadPersisted(): DemoState | null {

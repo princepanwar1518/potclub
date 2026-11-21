@@ -20,10 +20,12 @@ describe('landing page', () => {
     expect(screen.getByRole('link', { name: /see the simple steps/i })).toHaveAttribute('href', '#how-it-works')
   })
 
-  it('does not invent a brand: the home link is an unlabelled slot', async () => {
+  it('shows the PotClub name in the header and footer and in the page title', async () => {
     render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: ['/'] })} />)
-    const slots = await screen.findAllByRole('link', { name: 'Home' })
-    expect(slots[0]).toHaveAttribute('data-brand-slot', 'empty')
-    expect(slots[0]).toBeEmptyDOMElement()
+    const links = await screen.findAllByRole('link', { name: 'PotClub' })
+    expect(links).toHaveLength(2) // header + footer
+    expect(links[0]).toHaveAttribute('data-brand-slot', 'filled')
+    expect(links[0]).toHaveTextContent('PotClub')
+    expect(document.title).toBe('Pick a number, enjoy the moment · PotClub')
   })
 })

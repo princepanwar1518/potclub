@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Group Draws",
-  "short_name": "Group Draws",
+  "name": "PotClub",
+  "short_name": "PotClub",
   "description": "Join a small group, pick a unique card and watch the live draw. Play coins only — no cash value.",
   "start_url": "/dashboard?source=app",
   "scope": "/",

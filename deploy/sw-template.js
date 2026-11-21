@@ -1,6 +1,8 @@
 /* Service worker — generated at build time by deploy/vite-hosting-parity.ts. Do not edit dist/sw.js. */
 const VERSION = '__VERSION__'
-const CACHE = `group-draws-${VERSION}`
+const CACHE = `potclub-${VERSION}`
+// Also clear caches from before the rename.
+const OLD_PREFIXES = ['potclub-', 'group-draws-']
 const PRECACHE = __PRECACHE__
 const APP_SHELL = '/index.html'
 
@@ -13,7 +15,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k.startsWith('group-draws-') && k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => OLD_PREFIXES.some((p) => k.startsWith(p)) && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim()),
   )
 })

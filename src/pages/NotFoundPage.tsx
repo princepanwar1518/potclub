@@ -1,9 +1,10 @@
 import { Link } from 'react-router'
+import { pageTitle } from '../config/brand'
 import { usePageMeta } from '../lib/usePageMeta'
 
 export function NotFoundPage() {
   usePageMeta({
-    title: 'Page not found — Group draws',
+    title: pageTitle('Page not found'),
     description: 'The page you were looking for does not exist.',
     noIndex: true,
   })
