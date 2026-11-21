@@ -1,7 +1,14 @@
 /** Registers the service worker in production builds only (dev uses Vite's live modules). */
 export function registerServiceWorker(): void {
   // Skipped in the framed preview build: those hosts do not allow service workers.
-  if (!import.meta.env.PROD || import.meta.env.VITE_ROUTER === 'memory' || !('serviceWorker' in navigator)) return
+  // Also skipped in the native app: everything is already bundled on the device.
+  if (
+    !import.meta.env.PROD ||
+    import.meta.env.VITE_ROUTER === 'memory' ||
+    import.meta.env.VITE_PLATFORM === 'native' ||
+    !('serviceWorker' in navigator)
+  )
+    return
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {
       /* Offline support is optional; the app works without it. */

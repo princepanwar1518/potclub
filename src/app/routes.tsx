@@ -16,7 +16,11 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, lazy: async () => ({ Component: (await import('../pages/LandingPage')).LandingPage }) },
       { path: 'dashboard', lazy: async () => ({ Component: (await import('../pages/DashboardPage')).DashboardPage }) },
-      { path: 'admin', lazy: async () => ({ Component: (await import('../pages/AdminPage')).AdminPage }) },
+      // The demo operator console is web-only; the store apps ship the player experience.
+      ...(import.meta.env.VITE_PLATFORM === 'native'
+        ? []
+        : [{ path: 'admin', lazy: async () => ({ Component: (await import('../pages/AdminPage')).AdminPage }) }]),
+      { path: 'privacy', lazy: async () => ({ Component: (await import('../pages/PrivacyPage')).PrivacyPage }) },
       { path: '*', lazy: async () => ({ Component: (await import('../pages/NotFoundPage')).NotFoundPage }) },
     ],
   },

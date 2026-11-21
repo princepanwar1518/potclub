@@ -2,6 +2,7 @@ import { Bell, History, LayoutGrid, ShieldCheck, Trophy, Wallet } from 'lucide-r
 import { useSearchParams } from 'react-router'
 import { Container } from '../components/ui/primitives'
 import { InstallPrompt } from '../components/InstallPrompt'
+import { isNativeBuild } from '../lib/platform'
 import { TabList, type TabItem } from '../components/ui/Tabs'
 import { pageTitle } from '../config/brand'
 import { tabPanelProps } from '../lib/tabs'
@@ -68,7 +69,7 @@ export function DashboardPage() {
               Paid groups are paused for maintenance. Your balance and history are safe.
             </p>
           ) : null}
-          <InstallPrompt />
+          {isNativeBuild ? null : <InstallPrompt />}
           <StatCards />
           <MyGroups />
           <TabList

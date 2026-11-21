@@ -1,7 +1,7 @@
 {
   "name": "potclub-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,9 +11,20 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "build:preview-page": "tsc -b && vite build --base ./ --outDir dist-preview-page"
+    "build:preview-page": "tsc -b && vite build --base ./ --outDir dist-preview-page",
+    "build:native": "tsc -b && vite build --mode native --outDir dist-native",
+    "cap:sync": "npm run build:native && cap sync",
+    "android:open": "cap open android",
+    "ios:open": "cap open ios",
+    "assets:native": "capacitor-assets generate --android --ios --assetPath mobile/assets --iconBackgroundColor \"#120726\" --iconBackgroundColorDark \"#120726\" --splashBackgroundColor \"#06030E\" --splashBackgroundColorDark \"#06030E\""
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
     "@fontsource-variable/pixelify-sans": "^5.3.0",
     "@fontsource/space-mono": "^5.3.0",
     "lucide-react": "^1.74.0",
@@ -22,6 +33,8 @@
     "react-router": "^7.18.5"
   },
   "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.2",
     "@fontsource/fredoka": "^5.3.0",
     "@tailwindcss/vite": "^4.3.5",
     "@testing-library/jest-dom": "^7.0.1",

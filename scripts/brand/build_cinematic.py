@@ -208,11 +208,11 @@ def scene() -> str:
 """
 
     tongue = """
-  <path d="M456 512 C470 506 530 506 544 512 L548 690 C548 750 520 772 500 772 C480 772 452 750 452 690 Z" fill="url(#tongue)"/>
-  <path d="M500 520 C498 600 502 680 500 744" stroke="#B51F4C" stroke-width="7" stroke-linecap="round" fill="none" opacity=".8"/>
-  <path d="M468 540 C466 600 468 660 474 712" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" opacity=".55" filter="url(#soft)"/>
-  <path d="M470 560 C469 600 470 640 473 670" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85"/>
-  <ellipse cx="500" cy="774" rx="28" ry="6" fill="#000" opacity=".35" filter="url(#soft)"/>
+  <path d="M456 512 C470 506 530 506 544 512 L547 622 C547 660 522 676 500 676 C478 676 453 660 453 622 Z" fill="url(#tongue)"/>
+  <path d="M500 520 C499 570 501 615 500 652" stroke="#B51F4C" stroke-width="7" stroke-linecap="round" fill="none" opacity=".8"/>
+  <path d="M468 538 C467 575 469 610 474 640" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" opacity=".55" filter="url(#soft)"/>
+  <path d="M470 554 C469 578 470 600 472 618" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85"/>
+  <ellipse cx="500" cy="679" rx="28" ry="6" fill="#000" opacity=".35" filter="url(#soft)"/>
 """
 
     return f"""

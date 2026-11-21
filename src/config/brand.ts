@@ -10,6 +10,8 @@ export interface BrandConfig {
   logoSrc: string | null
   /** Wordmark image; when set it replaces the text name chip (the name stays the accessible label). */
   wordmarkSrc: string | null
+  /** Public support/privacy contact. Required by the app stores; shown on /privacy when set. */
+  supportEmail: string | null
   /** Accessible label for the home link when no name is set. */
   homeLabel: string
 }
@@ -18,6 +20,7 @@ export const brand: BrandConfig = {
   name: 'PotClub',
   logoSrc: '/brand/potclub-mark.webp',
   wordmarkSrc: '/brand/potclub-wordmark.svg',
+  supportEmail: null, // TODO(store): set before submitting to Google Play / App Store
   homeLabel: 'Home',
 }
 

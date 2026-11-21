@@ -111,3 +111,14 @@ Not started yet: backend foundation (auth, RBAC, audit log, read-only game data)
 - Reference is a client-rendered SPA; curl from workspace is blocked by egress proxy (403) and WebFetch only sees meta → use Claude in Chrome for any re-inspection.
 - Do not click Join/Deposit/Admin "Update" on the reference: it's a live app with shared guest state.
 - Fee check: ₹440 payout on 5×₹100 = 12% platform fee, matches admin "Platform Fee 12%".
+
+
+## Native apps — Android + iOS (2026-11-22)
+- Approach: Capacitor 8 wraps the same React app (bundled on device, offline, no server). Chosen over an Expo/React Native rewrite to keep one tested codebase.
+- Native build: `npm run build:native` (vite --mode native → .env.native VITE_PLATFORM=native → dist-native). Native build drops the service worker, install prompt and /admin route; src/native/bootstrap.ts handles back button, status bar, splash.
+- Projects: android/ (Gradle; versionName 1.0.0, versionCode from POTCLUB_VERSION_CODE; release signing from android/keystore.properties or POTCLUB_* env) and ios/ (SPM; MARKETING_VERSION 1.0.0; ITSAppUsesNonExemptEncryption=NO). App id com.potclub.app (confirm before first upload).
+- Icons/splash: mobile/assets → `npm run assets:native` (Android + iOS only).
+- CI: .github/workflows/mobile.yml — debug APK + iOS simulator build on every push; signed AAB/APK and TestFlight upload on v* tags / manual release when secrets exist (ASC API key, cloud-managed signing).
+- Store kit: mobile/STORE.md (listing, IARC/Apple 18+ simulated gambling, data safety, review notes, release order), screenshots, feature graphic. Added /privacy page (+ hosting route), brand.supportEmail (TODO before submission).
+- Not verifiable here: Google Maven/Gradle hosts are blocked (403) and there is no macOS, so first real Gradle/Xcode builds run on GitHub or the user's machine. Verified: tests, native bundle smoke test in phone viewport, cap sync both platforms, Gradle script parse, plist + workflow YAML parse.
+- Logo: tongue shortened (2026-11-22).

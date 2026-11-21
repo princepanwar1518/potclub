@@ -12,6 +12,10 @@ export function SiteFooter() {
           <Link to="/dashboard?tab=safety" className="font-bold text-violet underline decoration-2 underline-offset-4 hover:text-accent-ink">
             Player controls &amp; safety tools
           </Link>
+          {' · '}
+          <Link to="/privacy" className="font-bold text-violet underline decoration-2 underline-offset-4 hover:text-accent-ink">
+            Privacy
+          </Link>
         </p>
       </Container>
     </footer>

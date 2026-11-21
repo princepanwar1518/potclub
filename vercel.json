@@ -13,6 +13,10 @@
     {
       "source": "/admin",
       "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -68,7 +72,7 @@
       ]
     },
     {
-      "source": "/(dashboard|admin|index.html|404.html)",
+      "source": "/(dashboard|admin|privacy|index.html|404.html)",
       "headers": [
         {
           "key": "Cache-Control",

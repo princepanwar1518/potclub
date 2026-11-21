@@ -99,7 +99,7 @@ export function Hero() {
               <Heart aria-hidden="true" className="size-4 text-pink-600" /> Player-first controls
             </li>
             <li className="flex items-center gap-1.5">
-              <CircleCheck aria-hidden="true" className="size-4 text-mint-600" /> Clear, server-checked play
+              <CircleCheck aria-hidden="true" className="size-4 text-mint-600" /> Clear rules, random draws
             </li>
           </ul>
         </div>

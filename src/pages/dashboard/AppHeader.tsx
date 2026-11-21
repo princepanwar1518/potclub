@@ -5,6 +5,7 @@ import { Container } from '../../components/ui/primitives'
 import { balanceOf, playerLabel } from '../../domain/rules'
 import { CoinAmount } from '../../components/ui/CoinAmount'
 import { useDemo } from '../../state/context'
+import { isNativeBuild } from '../../lib/platform'
 
 export function AppHeader() {
   const { state, status, actions } = useDemo()
@@ -36,7 +37,7 @@ export function AppHeader() {
             {muted ? <VolumeX aria-hidden="true" className="size-[18px]" /> : <Volume2 aria-hidden="true" className="size-[18px]" />}
           </button>
           {/* Shown only to admins for convenience. Hiding it is NOT the protection — /admin is guarded itself. */}
-          {state.role === 'admin' ? (
+          {!isNativeBuild && state.role === 'admin' ? (
             <Link
               to="/admin"
               aria-label="Admin panel"
