@@ -17,7 +17,7 @@ export function BrandSlot({ className, to = '/' }: { className?: string; to?: st
     >
       {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9" /> : null}
       {brand.wordmarkSrc ? (
-        // Wordmark is 848x72-ish (Press Start 2P); height-driven so it scales with the slot.
+        // Wordmark SVG (Fredoka Bold paths); height-driven so it scales with the slot.
         <img src={brand.wordmarkSrc} alt="" height={20} className="h-5 w-auto sm:h-6" />
       ) : brand.name ? (
         <span className="rounded-btn border-2 border-ink bg-accent px-2.5 py-0.5 font-display text-lg font-bold text-ink shadow-[3px_3px_0_#141414]">
