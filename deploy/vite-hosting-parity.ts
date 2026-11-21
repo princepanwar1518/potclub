@@ -60,11 +60,11 @@ function listFiles(dir: string): string[] {
   })
 }
 
-/** Precache the app shell, every hashed asset and the icons; version = hash of that file list's contents. */
+/** Precache the app shell, every hashed asset, the icons and brand art; version = hash of that file list's contents. */
 function writeServiceWorker(outDir: string): void {
   const files = listFiles(outDir)
     .map((f) => '/' + relative(outDir, f).split('\\').join('/'))
-    .filter((p) => p === '/index.html' || p.startsWith('/assets/') || p.startsWith('/icons/') || p === '/manifest.webmanifest')
+    .filter((p) => p === '/index.html' || p.startsWith('/assets/') || p.startsWith('/icons/') || p.startsWith('/brand/') || p === '/favicon.svg' || p === '/manifest.webmanifest')
     .sort()
   const hash = createHash('sha256')
   for (const f of files) hash.update(f).update(readFileSync(join(outDir, f)))

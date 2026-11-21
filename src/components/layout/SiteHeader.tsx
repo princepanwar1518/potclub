@@ -11,7 +11,7 @@ export function SiteHeader() {
         <nav aria-label="Main" className="flex items-center gap-1 sm:gap-3">
           <a
             href="#how-it-works"
-            className="rounded-btn border-2 border-transparent px-3 py-1.5 font-display text-base font-bold text-ink transition hover:border-ink hover:bg-surface-2"
+            className="hidden whitespace-nowrap rounded-btn border-2 border-transparent px-3 sm:inline-flex py-1.5 font-display text-base font-bold text-ink transition hover:border-ink hover:bg-surface-2"
           >
             How it works
           </a>

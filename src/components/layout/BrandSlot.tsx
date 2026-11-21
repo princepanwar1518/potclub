@@ -15,8 +15,11 @@ export function BrandSlot({ className, to = '/' }: { className?: string; to?: st
       data-brand-slot={hasBrand ? 'filled' : 'empty'}
       className={cn('inline-flex h-9 min-w-9 items-center gap-2 rounded-btn', className)}
     >
-      {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9 rounded-btn" /> : null}
-      {brand.name ? (
+      {brand.logoSrc ? <img src={brand.logoSrc} alt="" width={36} height={36} className="size-9" /> : null}
+      {brand.wordmarkSrc ? (
+        // Wordmark is 848x72-ish (Press Start 2P); height-driven so it scales with the slot.
+        <img src={brand.wordmarkSrc} alt="" height={20} className="h-5 w-auto sm:h-6" />
+      ) : brand.name ? (
         <span className="rounded-btn border-2 border-ink bg-accent px-2.5 py-0.5 font-display text-lg font-bold text-ink shadow-[3px_3px_0_#141414]">
           {brand.name}
         </span>
