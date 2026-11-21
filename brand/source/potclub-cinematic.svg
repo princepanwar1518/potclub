@@ -1,0 +1,203 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" role="img" aria-labelledby="t"><title id="t">PotClub</title>
+<defs>
+  <!-- backdrop -->
+  <radialGradient id="bg" cx="500" cy="430" r="720" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#3A1677"/><stop offset=".45" stop-color="#170838"/><stop offset="1" stop-color="#04020A"/>
+  </radialGradient>
+  <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFE8C2" stop-opacity=".55"/><stop offset="1" stop-color="#FFE8C2" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="vignette" cx="500" cy="470" r="700" gradientUnits="userSpaceOnUse">
+    <stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".78"/>
+  </radialGradient>
+  <radialGradient id="floorShadow" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#000" stop-opacity=".85"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="potGlow" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#FFD27A" stop-opacity=".95"/><stop offset=".35" stop-color="#FF9F43" stop-opacity=".45"/>
+    <stop offset="1" stop-color="#FF2BD6" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- pot materials -->
+  <radialGradient id="potBody" cx="360" cy="600" r="520" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#C79BFF"/><stop offset=".28" stop-color="#8F45FF"/><stop offset=".62" stop-color="#5A16C9"/>
+    <stop offset="1" stop-color="#1C0548"/>
+  </radialGradient>
+  <linearGradient id="rimLight" x1="0" y1="0" x2="1" y2="0">
+    <stop offset=".8" stop-color="#3FF2FF" stop-opacity="0"/><stop offset=".95" stop-color="#3FF2FF" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#3FF2FF" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="rimMetal" x1="0" y1="478" x2="0" y2="642" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FFC9F4"/><stop offset=".22" stop-color="#FF4FDC"/><stop offset=".5" stop-color="#B0008D"/>
+    <stop offset=".7" stop-color="#FF3AD8"/><stop offset=".86" stop-color="#FF9BEA"/><stop offset="1" stop-color="#6E0058"/>
+  </linearGradient>
+  <radialGradient id="interior" cx="500" cy="540" r="330" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#3B1300"/><stop offset=".6" stop-color="#1A0533"/><stop offset="1" stop-color="#07010F"/>
+  </radialGradient>
+  <linearGradient id="handleMetal" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFB8F0"/><stop offset=".45" stop-color="#D21AB3"/><stop offset="1" stop-color="#4A003B"/>
+  </linearGradient>
+
+  <!-- dog materials -->
+  <radialGradient id="fur" cx="455" cy="330" r="330" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#D89A5C"/><stop offset=".45" stop-color="#A8652F"/><stop offset=".8" stop-color="#6E3A15"/>
+    <stop offset="1" stop-color="#3E1D07"/>
+  </radialGradient>
+  <linearGradient id="earFur" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#7A4019"/><stop offset=".7" stop-color="#4A2209"/><stop offset="1" stop-color="#2A1203"/>
+  </linearGradient>
+  <radialGradient id="muzzle" cx="485" cy="455" r="130" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FBE3C4"/><stop offset=".6" stop-color="#E7BE8E"/><stop offset="1" stop-color="#B98352"/>
+  </radialGradient>
+  <radialGradient id="iris" cx=".42" cy=".38" r=".62">
+    <stop offset="0" stop-color="#9A5A22"/><stop offset=".55" stop-color="#4E260A"/><stop offset="1" stop-color="#120600"/>
+  </radialGradient>
+  <radialGradient id="noseGloss" cx=".4" cy=".3" r=".8">
+    <stop offset="0" stop-color="#5A4A52"/><stop offset=".5" stop-color="#1A1418"/><stop offset="1" stop-color="#030203"/>
+  </radialGradient>
+  <linearGradient id="tongue" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFB2C6"/><stop offset=".5" stop-color="#FF6F95"/><stop offset="1" stop-color="#C9285A"/>
+  </linearGradient>
+  <radialGradient id="pawFur" cx=".45" cy=".3" r=".8">
+    <stop offset="0" stop-color="#D3955A"/><stop offset=".6" stop-color="#9B5A28"/><stop offset="1" stop-color="#5A2C0D"/>
+  </radialGradient>
+  <radialGradient id="flare" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset=".2" stop-color="#FFE7A3" stop-opacity=".9"/><stop offset="1" stop-color="#FFB13B" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- filters -->
+  <filter id="soft" filterUnits="userSpaceOnUse" x="-500" y="-500" width="2000" height="2000"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="blur18" filterUnits="userSpaceOnUse" x="-500" y="-500" width="2000" height="2000"><feGaussianBlur stdDeviation="18"/></filter>
+  <filter id="blur40" filterUnits="userSpaceOnUse" x="-500" y="-500" width="2000" height="2000"><feGaussianBlur stdDeviation="40"/></filter>
+  <filter id="bokeh" filterUnits="userSpaceOnUse" x="-500" y="-500" width="2000" height="2000"><feGaussianBlur stdDeviation="9"/></filter>
+  <filter id="furTex" x="-12%" y="-12%" width="124%" height="124%">
+    <!-- long vertical strands: high x frequency, low y frequency -->
+    <feTurbulence type="fractalNoise" baseFrequency="0.8 0.045" numOctaves="4" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G" result="ragged"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 .12  0 0 0 0 .05  0 0 0 0 0  2.4 0 0 0 -1.1" result="dark"/>
+    <feComposite in="dark" in2="ragged" operator="in" result="darkIn"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 .78  0 0 0 0 .5  0 1.7 0 0 -1.12" result="light"/>
+    <feComposite in="light" in2="ragged" operator="in" result="lightIn"/>
+    <feMerge><feMergeNode in="ragged"/><feMergeNode in="darkIn"/><feMergeNode in="lightIn"/></feMerge>
+  </filter>
+  <filter id="shortFur" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.0 0.14" numOctaves="3" seed="11" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G" result="ragged"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 .35  0 0 0 0 .18  0 0 0 0 .05  2.2 0 0 0 -1.1" result="dark"/>
+    <feComposite in="dark" in2="ragged" operator="in" result="darkIn"/>
+    <feMerge><feMergeNode in="ragged"/><feMergeNode in="darkIn"/></feMerge>
+  </filter>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="table" tableValues="0 .09"/></feComponentTransfer>
+  </filter>
+  <filter id="metalSheen" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.004 0.06" numOctaves="2" seed="4" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 1.4 0 -.62" result="streaks"/>
+    <feComposite in="streaks" in2="SourceGraphic" operator="in" result="s"/>
+    <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="s"/></feMerge>
+  </filter>
+
+  <!-- dog is visible above the rim line and inside the opening only -->
+  <clipPath id="aboveRim"><path d="M-500 -500 H1500 V556 H815 A315 62 0 0 1 185 556 H-500 Z"/></clipPath>
+</defs>
+
+<rect x="-500" y="-500" width="2000" height="2000" fill="url(#bg)"/>
+<g filter="url(#blur18)" opacity=".42" style="mix-blend-mode:screen"><path d="M120 -60 L250 -60 L560 700 L380 700 Z" fill="url(#ray)"/><path d="M-40 -60 L60 -60 L380 640 L260 660 Z" fill="url(#ray)" opacity=".7"/><path d="M300 -60 L360 -60 L700 620 L600 640 Z" fill="url(#ray)" opacity=".45"/></g>
+<circle cx="120" cy="180" r="26" fill="#FF2BD6" opacity="0.45" filter="url(#bokeh)"/><circle cx="210" cy="90" r="14" fill="#3FF2FF" opacity="0.5" filter="url(#bokeh)"/><circle cx="860" cy="140" r="30" fill="#3FF2FF" opacity="0.35" filter="url(#bokeh)"/><circle cx="930" cy="300" r="16" fill="#FFC233" opacity="0.55" filter="url(#bokeh)"/><circle cx="80" cy="420" r="18" fill="#FFC233" opacity="0.35" filter="url(#bokeh)"/><circle cx="900" cy="520" r="22" fill="#FF2BD6" opacity="0.3" filter="url(#bokeh)"/><circle cx="160" cy="640" r="12" fill="#3FF2FF" opacity="0.4" filter="url(#bokeh)"/><circle cx="840" cy="760" r="14" fill="#FFC233" opacity="0.35" filter="url(#bokeh)"/><circle cx="300" cy="120" r="9" fill="#FFFFFF" opacity="0.5" filter="url(#bokeh)"/><circle cx="720" cy="80" r="11" fill="#FF9BEA" opacity="0.55" filter="url(#bokeh)"/><circle cx="60" cy="820" r="24" fill="#7B2FF7" opacity="0.5" filter="url(#bokeh)"/><circle cx="950" cy="860" r="28" fill="#7B2FF7" opacity="0.45" filter="url(#bokeh)"/>
+<circle cx="210" cy="140" r="2.2" fill="#FFF1D6" opacity="0.7"/><circle cx="260" cy="260" r="1.6" fill="#FFF1D6" opacity="0.6"/><circle cx="330" cy="190" r="2.6" fill="#FFF1D6" opacity="0.5"/><circle cx="400" cy="330" r="1.4" fill="#FFF1D6" opacity="0.6"/><circle cx="180" cy="330" r="1.8" fill="#FFF1D6" opacity="0.45"/><circle cx="300" cy="420" r="2" fill="#FFF1D6" opacity="0.4"/><circle cx="460" cy="120" r="1.5" fill="#FFF1D6" opacity="0.5"/><circle cx="150" cy="60" r="2.4" fill="#FFF1D6" opacity="0.55"/>
+<!-- floor -->
+<ellipse cx="500" cy="930" rx="420" ry="46" fill="url(#floorShadow)"/>
+<g opacity=".18" transform="translate(0 1840) scale(1 -1)" filter="url(#blur18)">
+  <path d="M150 556 C150 760 300 910 500 910 C700 910 850 760 850 556 Z" fill="url(#potBody)"/>
+</g>
+<!-- handles -->
+<g stroke-linecap="round" fill="none">
+  <path d="M168 610 C92 600 82 700 160 712" stroke="#1C0216" stroke-width="40"/>
+  <path d="M168 610 C92 600 82 700 160 712" stroke="url(#handleMetal)" stroke-width="28"/>
+  <path d="M832 610 C908 600 918 700 840 712" stroke="#1C0216" stroke-width="40"/>
+  <path d="M832 610 C908 600 918 700 840 712" stroke="url(#handleMetal)" stroke-width="28"/>
+  <path d="M136 628 C120 650 124 676 138 690" stroke="#FFE0F8" stroke-width="5" opacity=".7"/>
+</g>
+<!-- feet -->
+<rect x="300" y="880" width="90" height="52" rx="20" fill="#14031F"/>
+<rect x="610" y="880" width="90" height="52" rx="20" fill="#14031F"/>
+<!-- pot body -->
+<path d="M150 556 C150 760 300 910 500 910 C700 910 850 760 850 556 Z" fill="url(#potBody)"/>
+<path d="M190 690 C330 740 670 740 810 690" stroke="#E6D2FF" stroke-width="16" fill="none" opacity=".22" filter="url(#blur18)"/>
+<path d="M240 800 C360 850 640 850 760 800" stroke="#000" stroke-width="40" fill="none" opacity=".25" filter="url(#blur18)"/>
+<path d="M150 556 C150 760 300 910 500 910 C700 910 850 760 850 556 Z" fill="url(#rimLight)"/>
+<path d="M206 640 C214 760 290 846 380 876" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" fill="none" opacity=".45" filter="url(#soft)"/>
+<path d="M214 650 C224 750 280 820 350 852" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" fill="none" opacity=".85"/>
+<ellipse cx="270" cy="620" rx="26" ry="12" fill="#FFFFFF" opacity=".75" filter="url(#soft)"/>
+<path d="M820 600 C818 720 760 830 660 884" stroke="#3FF2FF" stroke-width="6" stroke-linecap="round" fill="none" opacity=".7" filter="url(#soft)"/>
+<path d="M160 700 C300 760 700 760 840 700" stroke="#000" stroke-width="30" fill="none" opacity=".12" filter="url(#blur18)"/>
+<!-- rim: full ring (its back half sits behind the dog) -->
+<ellipse cx="500" cy="556" rx="350" ry="84" fill="url(#rimMetal)"/>
+<path d="M180 530 C300 486 700 486 820 530" stroke="#FFD6F6" stroke-width="4" fill="none" opacity=".55" filter="url(#soft)"/>
+<ellipse cx="500" cy="556" rx="315" ry="62" fill="url(#interior)"/>
+<ellipse cx="500" cy="540" rx="260" ry="80" fill="url(#potGlow)" filter="url(#blur40)" style="mix-blend-mode:screen"/>
+<!-- dog -->
+<g clip-path="url(#aboveRim)">
+  <ellipse cx="500" cy="600" rx="230" ry="60" fill="#000" opacity=".55" filter="url(#blur18)"/>
+  <ellipse cx="500" cy="330" rx="300" ry="230" fill="url(#potGlow)" opacity=".55" filter="url(#blur40)"/>
+  <g filter="url(#furTex)"><path d="M368 262 C262 236 212 338 222 470 C230 566 268 626 318 618 C362 610 372 530 380 420 Z" fill="url(#earFur)"/><path d="M632 262 C738 236 788 338 778 470 C770 566 732 626 682 618 C638 610 628 530 620 420 Z" fill="url(#earFur)"/></g>
+  <path d="M322 640 C302 430 352 214 500 210 C648 214 698 430 678 640 Z" fill="#120500" opacity=".75" filter="url(#blur18)"/>
+  <g filter="url(#furTex)"><path d="M322 640 C302 430 352 214 500 210 C648 214 698 430 678 640 Z" fill="url(#fur)"/></g>
+  <path d="M650 300 C694 380 694 500 680 620" stroke="#3FF2FF" stroke-width="14" fill="none" opacity=".3" filter="url(#blur18)"/>
+  <path d="M760 330 C790 420 788 520 766 590" stroke="#3FF2FF" stroke-width="12" fill="none" opacity=".3" filter="url(#blur18)"/>
+  <path d="M360 240 C330 300 320 380 324 460" stroke="#FFD9A8" stroke-width="12" fill="none" opacity=".35" filter="url(#soft)"/>
+  
+  <!-- face -->
+  <path d="M470 222 C478 300 522 300 530 222 C516 214 484 214 470 222 Z" fill="#E7B47D" opacity=".55" filter="url(#soft)"/>
+  <ellipse cx="500" cy="470" rx="118" ry="86" fill="url(#muzzle)" filter="url(#shortFur)"/>
+  <ellipse cx="380" cy="430" rx="34" ry="20" fill="#FF6F95" opacity=".28" filter="url(#soft)"/>
+  <ellipse cx="620" cy="430" rx="34" ry="20" fill="#FF6F95" opacity=".28" filter="url(#soft)"/>
+  <g>
+    <path d="M384 352 Q428 318 470 346" stroke="#2A1203" stroke-width="10" fill="none" stroke-linecap="round" opacity=".55" filter="url(#soft)"/>
+    <path d="M616 352 Q572 318 530 346" stroke="#2A1203" stroke-width="10" fill="none" stroke-linecap="round" opacity=".55" filter="url(#soft)"/>
+    <ellipse cx="428" cy="378" rx="34" ry="37" fill="#1A0A02"/>
+    <ellipse cx="572" cy="378" rx="34" ry="37" fill="#1A0A02"/>
+    <circle cx="428" cy="380" r="28" fill="url(#iris)"/>
+    <circle cx="572" cy="380" r="28" fill="url(#iris)"/>
+    <circle cx="430" cy="383" r="13" fill="#050200"/>
+    <circle cx="574" cy="383" r="13" fill="#050200"/>
+    <ellipse cx="417" cy="366" rx="10" ry="8" fill="#FFFFFF"/>
+    <ellipse cx="561" cy="366" rx="10" ry="8" fill="#FFFFFF"/>
+    <circle cx="440" cy="394" r="3.5" fill="#FFFFFF" opacity=".85"/>
+    <circle cx="584" cy="394" r="3.5" fill="#FFFFFF" opacity=".85"/>
+    
+  </g>
+  <path d="M460 438 C458 410 542 410 540 438 C538 470 514 484 500 484 C486 484 462 470 460 438 Z" fill="url(#noseGloss)"/>
+  <ellipse cx="486" cy="425" rx="15" ry="7" fill="#FFFFFF" opacity=".75" filter="url(#soft)" transform="rotate(-12 486 425)"/>
+  <ellipse cx="486" cy="425" rx="7" ry="3" fill="#FFFFFF" opacity=".9"/>
+  <ellipse cx="485" cy="456" rx="7" ry="4.5" fill="#000" transform="rotate(20 485 456)"/><ellipse cx="515" cy="456" rx="7" ry="4.5" fill="#000" transform="rotate(-20 515 456)"/>
+  <path d="M500 484 V506" stroke="#2A1203" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="500" cy="522" rx="52" ry="24" fill="#5A0A1E"/>
+  <path d="M436 504 Q470 548 500 512 Q530 548 564 504" stroke="#2A1203" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+</g>
+<!-- rim: front half over the dog -->
+<path d="M150 556 A350 84 0 0 0 850 556 L815 556 A315 62 0 0 1 185 556 Z" fill="url(#rimMetal)"/>
+<path d="M190 588 C300 636 700 636 810 588" stroke="#FFFFFF" stroke-width="7" fill="none" opacity=".8" filter="url(#soft)"/>
+<path d="M230 600 C340 632 450 640 520 640" stroke="#FFFFFF" stroke-width="2.5" fill="none" opacity=".95"/>
+<path d="M760 610 C800 596 830 580 846 560" stroke="#3FF2FF" stroke-width="6" fill="none" opacity=".75" filter="url(#soft)"/>
+<!-- paws + tongue over the rim -->
+<ellipse cx="300" cy="640" rx="80" ry="16" fill="#000" opacity=".45" filter="url(#soft)"/>
+<ellipse cx="700" cy="640" rx="80" ry="16" fill="#000" opacity=".45" filter="url(#soft)"/>
+<g filter="url(#shortFur)"><path d="M228 600 C228 556 250 536 300 536 C350 536 372 556 372 598 C372 628 350 640 300 640 C250 640 228 628 228 600 Z" fill="url(#pawFur)"/><path d="M628 600 C628 556 650 536 700 536 C750 536 772 556 772 598 C772 628 750 640 700 640 C650 640 628 628 628 600 Z" fill="url(#pawFur)"/></g>
+<path d="M274 606 Q276 622 274 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/><path d="M300 606 Q302 622 300 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/><path d="M326 606 Q328 622 326 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/><path d="M674 606 Q676 622 674 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/><path d="M700 606 Q702 622 700 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/><path d="M726 606 Q728 622 726 636" stroke="#3A1A06" stroke-width="5" stroke-linecap="round" fill="none" opacity=".75"/>
+<path d="M250 556 C262 546 282 542 300 542" stroke="#FFD9A8" stroke-width="5" fill="none" opacity=".6" filter="url(#soft)"/>
+<path d="M752 556 C764 568 770 586 768 604" stroke="#3FF2FF" stroke-width="5" fill="none" opacity=".6" filter="url(#soft)"/>
+
+  <path d="M456 512 C470 506 530 506 544 512 L548 690 C548 750 520 772 500 772 C480 772 452 750 452 690 Z" fill="url(#tongue)"/>
+  <path d="M500 520 C498 600 502 680 500 744" stroke="#B51F4C" stroke-width="7" stroke-linecap="round" fill="none" opacity=".8"/>
+  <path d="M468 540 C466 600 468 660 474 712" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" opacity=".55" filter="url(#soft)"/>
+  <path d="M470 560 C469 600 470 640 473 670" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85"/>
+  <ellipse cx="500" cy="774" rx="28" ry="6" fill="#000" opacity=".35" filter="url(#soft)"/>
+
+<g transform="translate(800 190)"><circle r="90" fill="url(#flare)" opacity=".55"/><path d="M0 -120 Q6 -6 120 0 Q6 6 0 120 Q-6 6 -120 0 Q-6 -6 0 -120 Z" fill="#FFF4D0" opacity=".95" filter="url(#soft)"/><path d="M0 -70 Q4 -4 70 0 Q4 4 0 70 Q-4 4 -70 0 Q-4 -4 0 -70 Z" fill="#FFFFFF"/><path d="M-200 0 H200" stroke="#FFE7A3" stroke-width="2" opacity=".5" filter="url(#soft)"/></g><g transform="translate(205 300) scale(.38)"><circle r="90" fill="url(#flare)" opacity=".5"/><path d="M0 -90 Q5 -5 90 0 Q5 5 0 90 Q-5 5 -90 0 Q-5 -5 0 -90 Z" fill="#FFFFFF"/></g>
+<rect x="-500" y="-500" width="2000" height="2000" fill="url(#vignette)"/>
+<rect x="-500" y="-500" width="2000" height="2000" filter="url(#grain)" style="mix-blend-mode:overlay"/>
+</svg>

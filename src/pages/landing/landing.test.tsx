@@ -26,7 +26,7 @@ describe('landing page', () => {
     expect(links).toHaveLength(2) // header + footer
     expect(links[0]).toHaveAttribute('data-brand-slot', 'filled')
     const art = Array.from(links[0]!.querySelectorAll('img')).map((img) => img.getAttribute('src'))
-    expect(art).toEqual(['/brand/potclub-mark.svg', '/brand/potclub-wordmark.svg'])
+    expect(art).toEqual(['/brand/potclub-mark.webp', '/brand/potclub-wordmark.svg'])
     expect(document.title).toBe('Pick a number, enjoy the moment · PotClub')
   })
 })
