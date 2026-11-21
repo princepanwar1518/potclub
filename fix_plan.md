@@ -70,7 +70,7 @@ Not started yet: backend foundation (auth, RBAC, audit log, read-only game data)
 - Host config: return HTTP 404 for unknown routes, security headers (CSP, HSTS, X-Frame-Options), canonical URL + og:image once a domain and branding exist.
 
 ## Blocked / needs user
-- Branding (name, logo) — user will supply later; keep placeholder slot neutral.
+- Branding: name decided = PotClub (2026-11-21, applied in ed0161a). Logo still to come: set brand.logoSrc and replace the neutral icons in public/icons.
 - Real backend/payments are out of scope — mock only. Real-money online lottery/gaming is restricted in India (Promotion and Regulation of Online Gaming Act, 2025); confirm legal basis before any real-money launch.
 - Reference mobile layout could not be captured (browser resize had no effect) — design mobile from desktop rules.
 
